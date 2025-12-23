@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Amaanitvam Foundation{% endblock %}</title>
+    <meta name="description"
+        content="{% block meta_description %}Amaanitvam Foundation - Spreading Kindness, Warmth and Opportunity to children in need. A Section 8 Non-Profit Company.{% endblock %}">
+
+    <!-- Favicon -->
+    {% load static %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-black.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-black.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon-black.png' %}">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'stc-red': {
+                            50: '#FEF2F2',
+                            100: '#FEE2E2',
+                            200: '#FECACA',
+                            300: '#FCA5A5',
+                            400: '#F87171',
+                            500: '#E11B22', /* Save the Children Red */
+                            600: '#C81920',
+                            700: '#A3151A',
+                            800: '#7F1014',
+                            900: '#5C0C0F',
+                        },
+                        'stc-black': '#1A1A1A',
+                        'stc-gray': {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                        }
+                    },
+                    fontFamily: {
+                        'display': ['Merriweather', 'serif'],
+                        'body': ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts - Merriweather (Headings) + Lato (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700;900&family=Playfair+Display:wght@400;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            color: #1A1A1A;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Merriweather', serif;
+        }
+
+        .btn-primary {
+            @apply bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-all duration-200;
+        }
+
+        .btn-secondary {
+            @apply bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-all duration-200;
+        }
+
+        .card-hover {
+            @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Save the Children style red bar */
+        .red-bar {
+            height: 4px;
+            background: #E11B22;
+        }
+
+        /* Floating animation for decorative circles */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+
+        @keyframes floatReverse {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(20px) scale(1.1);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-reverse {
+            animation: floatReverse 8s ease-in-out infinite;
+        }
+
+        .animate-float-slow {
+            animation: float 10s ease-in-out infinite;
+        }
+
+        /* Pulsing glow animation */
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.2;
+                transform: scale(1.1);
+            }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+
+        /* Slide in animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.6s ease-out forwards;
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .animate-slide-in-up {
+            animation: slideInUp 0.6s ease-out forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        /* Diamond spin animation */
+        @keyframes diamondPulse {
+
+            0%,
+            100% {
+                transform: rotate(45deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(45deg) scale(1.2);
+            }
+        }
+
+        .animate-diamond-pulse {
+            animation: diamondPulse 2s ease-in-out infinite;
+        }
+
+        /* Line expand animation */
+        @keyframes lineExpand {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 3rem;
+            }
+        }
+
+        .animate-line-expand {
+            animation: lineExpand 0.8s ease-out forwards;
+            animation-delay: 0.3s;
+            width: 0;
+        }
+
+        /* Text reveal animation */
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .animate-text-reveal {
+            animation: textReveal 0.8s ease-out forwards;
+        }
+
+        .animate-text-reveal-delay {
+            animation: textReveal 0.8s ease-out forwards;
+            animation-delay: 0.15s;
+            opacity: 0;
+        }
+
+        /* Gradient shift animation */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        /* Elegant Hero Headline Animation - Warm Rise */
+        @keyframes heroRise {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+                letter-spacing: 0.05em;
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(-5px);
+                letter-spacing: 0.02em;
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                letter-spacing: 0;
+            }
+        }
+
+        .animate-hero-rise {
+            animation: heroRise 1s ease-out forwards;
+        }
+
+        /* Highlight Word Animation - Gentle Glow */
+        @keyframes warmGlow {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+                text-shadow: 0 0 0 transparent;
+            }
+
+            50% {
+                text-shadow: 0 0 30px rgba(225, 27, 34, 0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                text-shadow: 0 0 0 transparent;
+            }
+        }
+
+        .animate-warm-glow {
+            animation: warmGlow 1.2s ease-out forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        /* Decorative Line Grow */
+        @keyframes lineGrow {
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+
+            100% {
+                width: 3rem;
+                opacity: 1;
+            }
+        }
+
+        .animate-line-grow {
+            animation: lineGrow 0.8s ease-out forwards;
+            animation-delay: 0.6s;
+            width: 0;
+            opacity: 0;
+        }
+
+        /* Heart Diamond Pulse */
+        @keyframes heartPulse {
+            0% {
+                transform: rotate(45deg) scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: rotate(45deg) scale(1.3);
+            }
+
+            100% {
+                transform: rotate(45deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-heart-pulse {
+            animation: heartPulse 0.8s ease-out forwards;
+            animation-delay: 0.8s;
+            opacity: 0;
+        }
+
+        /* Subtitle Fade Up */
+        @keyframes subtleFadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-subtle-fade-up {
+            animation: subtleFadeUp 0.8s ease-out forwards;
+            animation-delay: 1s;
+            opacity: 0;
+        }
+
+        /* Tag Slide In */
+        @keyframes tagSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-tag-slide {
+            animation: tagSlideIn 0.6s ease-out forwards;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="bg-white min-h-screen flex flex-col">
+    <!-- Top Red Bar -->
+    <div class="red-bar w-full"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{% url 'home' %}" class="flex items-center space-x-4">
+                        <img src="{% static 'favicon-white.png' %}" alt="Amaanitvam Foundation Logo"
+                            class="w-20 h-20 object-contain hover:scale-105 transition-transform duration-200">
+                        <div>
+                            <span
+                                class="text-lg font-black text-stc-black font-display tracking-tight uppercase">Amaanitvam</span>
+                            <span
+                                class="block text-xs text-stc-red-500 font-bold uppercase tracking-wider">Foundation</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{% url 'home' %}"
+                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Home</a>
+                    <a href="{% url 'about' %}"
+                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Who
+                        We Are</a>
+                    <a href="{% url 'what_we_do' %}"
+                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">What
+                        We Do</a>
+                    <a href="{% url 'ways_to_help' %}"
+                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Ways
+                        to Help</a>
+                    <a href="{% url 'stories_list' %}"
+                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Our
+                        Stories</a>
+                </div>
+
+                <!-- Donate Button -->
+                <div class="hidden md:block">
+                    <a href="{% url 'donate' %}"
+                        class="bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-all duration-200 uppercase text-sm tracking-wide">
+                        Donate Now
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" id="mobile-menu-btn" class="text-stc-black p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-4 space-y-3">
+                <a href="{% url 'home' %}"
+                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Home</a>
+                <a href="{% url 'about' %}"
+                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Who We
+                    Are</a>
+                <a href="{% url 'what_we_do' %}"
+                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">What We
+                    Do</a>
+                <a href="{% url 'ways_to_help' %}"
+                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Ways to
+                    Help</a>
+                <a href="{% url 'stories_list' %}"
+                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Our
+                    Stories</a>
+                <a href="{% url 'donate' %}"
+                    class="block bg-stc-red-500 text-white text-center font-bold py-3 px-6 mt-4 uppercase text-sm">
+                    Donate Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Fixed Social Media Sidebar -->
+    <div class="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-0 shadow-lg">
+        <a href="https://www.facebook.com/people/Amaanitvam-Foundation/61583427622759/" target="_blank"
+            class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 flex items-center justify-center transition-all duration-300 group"
+            title="Facebook">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+        </a>
+        <a href="https://www.instagram.com/amaanitvamfoundation" target="_blank"
+            class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 flex items-center justify-center transition-all duration-300 group"
+            title="Instagram">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+        </a>
+        <a href="https://x.com/AmaanitvamOrg" target="_blank"
+            class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 flex items-center justify-center transition-all duration-300 group"
+            title="X (Twitter)">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+        </a>
+        <a href="https://www.linkedin.com/company/amaanitvam-foundation/" target="_blank"
+            class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 flex items-center justify-center transition-all duration-300 group"
+            title="LinkedIn">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stc-black text-white">
+        <!-- Main Footer -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <!-- About -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <img src="{% static 'favicon-gray.png' %}" alt="Amaanitvam Foundation Logo"
+                            class="w-20 h-20 object-contain">
+                        <span class="text-lg font-black font-display uppercase">Amaanitvam Foundation</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        A Section 8 Non-Profit Company dedicated to ensuring every child has access to quality
+                        education, healthcare, and nutrition. Working in Art & Culture, Children, Education & Literacy,
+                        Environment & Forests, and Food Processing.
+                    </p>
+                    <p class="text-gray-500 text-xs">
+                        CIN: U88900DL2025NPL455183<br>
+                        DARPAN ID: DL/2025/0817469<br>
+                        Registered under the Companies Act, 2013 (Section 8)
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-sm font-bold mb-6 uppercase tracking-wider">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="{% url 'home' %}" class="hover:text-stc-red-500 transition-colors">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-stc-red-500 transition-colors">Who We Are</a>
+                        </li>
+                        <li><a href="{% url 'what_we_do' %}" class="hover:text-stc-red-500 transition-colors">What We
+                                Do</a></li>
+                        <li><a href="{% url 'ways_to_help' %}" class="hover:text-stc-red-500 transition-colors">Ways to
+                                Help</a></li>
+                        <li><a href="{% url 'stories_list' %}" class="hover:text-stc-red-500 transition-colors">Our
+                                Stories</a></li>
+                        <li><a href="{% url 'donate' %}" class="hover:text-stc-red-500 transition-colors">Donate</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-sm font-bold mb-6 uppercase tracking-wider">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-stc-red-500">📍</span>
+                            <span>H.No 269 W.NO2, MEHRAULI,<br>Gadaipur, Mehrauli,<br>South Delhi - 110030</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-stc-red-500">📧</span>
+                            <a href="mailto:amaanitvamfoundation@gmail.com"
+                                class="hover:text-stc-red-500 transition-colors">amaanitvamfoundation@gmail.com</a>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-stc-red-500">📞</span>
+                            <span>+91 98XX 92XX 66</span>
+                        </li>
+                    </ul>
+
+                    <!-- Social Icons -->
+                    <div class="flex space-x-3 mt-6">
+                        <a href="https://www.facebook.com/people/Amaanitvam-Foundation/61583427622759/" target="_blank"
+                            class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
+                            title="Facebook">
+                            <span class="text-sm">FB</span>
+                        </a>
+                        <a href="https://www.instagram.com/amaanitvamfoundation" target="_blank"
+                            class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
+                            title="Instagram">
+                            <span class="text-sm">IG</span>
+                        </a>
+                        <a href="https://x.com/AmaanitvamOrg" target="_blank"
+                            class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
+                            title="X (Twitter)">
+                            <span class="text-sm">X</span>
+                        </a>
+                        <a href="https://www.linkedin.com/company/amaanitvam-foundation/" target="_blank"
+                            class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
+                            title="LinkedIn">
+                            <span class="text-sm">LI</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs">
+                    <p>&copy; 2024 Amaanitvam Foundation. All rights reserved.</p>
+                    <p class="mt-2 md:mt-0">For the children who deserve every chance to shine.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>

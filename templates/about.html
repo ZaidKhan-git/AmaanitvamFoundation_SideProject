@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}Who We Are - Amaanitvam Foundation{% endblock %}
+{% block meta_description %}Learn about Amaanitvam Foundation, a Section 8 Non-Profit Company dedicated to empowering
+underprivileged children through education, healthcare, and nutrition.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative py-28 bg-stc-black overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1536337005238-94b997371b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Volunteers helping children" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-stc-black/70"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 text-center">
+        <span
+            class="inline-block text-stc-red-500 text-sm font-bold uppercase tracking-[0.3em] mb-4 animate-tag-slide">About
+            Us</span>
+        <h1
+            class="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 font-display uppercase leading-tight animate-hero-rise">
+            Who We <span class="text-stc-red-500 inline-block animate-warm-glow">Are</span>
+        </h1>
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="w-12 h-1 bg-stc-red-500 animate-line-grow"></div>
+            <div class="w-3 h-3 bg-stc-red-500 animate-heart-pulse"></div>
+            <div class="w-12 h-1 bg-stc-red-500 animate-line-grow"></div>
+        </div>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed animate-subtle-fade-up">
+            A Section 8 Non-Profit Company fighting for children's rights across India.
+        </p>
+    </div>
+</section>
+
+<!-- Mission Statement -->
+<section class="py-16 bg-stc-red-500">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <p class="text-2xl md:text-3xl text-white font-bold leading-relaxed">
+            "We believe every child deserves a chance to survive, learn, and be protected — no matter where they live or
+            their circumstances."
+        </p>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <span class="inline-block text-stc-red-500 text-xs font-bold uppercase tracking-[0.2em] mb-2">Our
+                    Journey</span>
+                <h2 class="text-4xl font-black text-stc-black font-display uppercase">Our Story</h2>
+                <div class="flex items-center gap-2 mt-4 mb-8">
+                    <div class="w-12 h-1 bg-stc-red-500"></div>
+                    <div class="w-2 h-2 bg-stc-red-500 rotate-45 animate-diamond-pulse"></div>
+                </div>
+            </div>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Amaanitvam Foundation was born from a simple belief: every child, regardless of their circumstances,
+                deserves a chance to dream and the support to achieve those dreams.
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Registered on September 12, 2025, we started with a vision to provide support to children in
+                underserved
+                communities in Delhi. Today, we're working across Art & Culture, Children, Education & Literacy,
+                Environment & Forests, and Food Processing sectors.
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+                The name "Amaanitvam" comes from Sanskrit, meaning "dignity" — a core value that drives everything
+                we do. We believe in empowering children, not through charity alone, but by building systems that
+                foster independence and self-worth.
+            </p>
+        </div>
+        <div class="bg-stc-red-500 h-96 flex items-center justify-center">
+            <span class="text-9xl text-white/30">🤝</span>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- What We Fight For -->
+<section class="py-20 bg-stc-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="inline-block text-stc-red-500 text-xs font-bold uppercase tracking-[0.2em] mb-3">Our
+                Mission</span>
+            <h2 class="text-4xl md:text-5xl font-black text-stc-black font-display uppercase">What We <span
+                    class="text-stc-red-500">Fight For</span></h2>
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <div class="w-12 h-1 bg-stc-red-500"></div>
+                <div class="w-3 h-3 bg-stc-red-500 rotate-45 animate-diamond-pulse"></div>
+                <div class="w-12 h-1 bg-stc-red-500"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Education -->
+            <div class="bg-white p-8 border-t-4 border-stc-red-500 rounded-xl shadow-lg">
+                <div class="w-14 h-14 bg-stc-black flex items-center justify-center mb-6">
+                    <span class="text-white text-2xl">📚</span>
+                </div>
+                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Education</h3>
+                <ul class="text-gray-600 space-y-2 text-sm">
+                    <li>• School supplies and uniforms</li>
+                    <li>• After-school tutoring programs</li>
+                    <li>• Digital literacy initiatives</li>
+                    <li>• Scholarship for higher education</li>
+                </ul>
+            </div>
+
+            <!-- Health -->
+            <div class="bg-white p-8 border-t-4 border-stc-red-500 rounded-xl shadow-lg">
+                <div class="w-14 h-14 bg-stc-black flex items-center justify-center mb-6">
+                    <span class="text-white text-2xl">🏥</span>
+                </div>
+                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Healthcare</h3>
+                <ul class="text-gray-600 space-y-2 text-sm">
+                    <li>• Regular health check-ups</li>
+                    <li>• Vaccination drives</li>
+                    <li>• Mental health support</li>
+                    <li>• Emergency medical assistance</li>
+                </ul>
+            </div>
+
+            <!-- Nutrition -->
+            <div class="bg-white p-8 border-t-4 border-stc-red-500 rounded-xl shadow-lg">
+                <div class="w-14 h-14 bg-stc-black flex items-center justify-center mb-6">
+                    <span class="text-white text-2xl">🍎</span>
+                </div>
+                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Nutrition</h3>
+                <ul class="text-gray-600 space-y-2 text-sm">
+                    <li>• Daily mid-day meals</li>
+                    <li>• Nutrition awareness programs</li>
+                    <li>• Kitchen gardens in schools</li>
+                    <li>• Food security initiatives</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Legal & Transparency -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl font-black text-stc-black mb-2 font-display uppercase">Legal & Transparency</h2>
+            <div class="w-16 h-1 bg-stc-red-500 mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-stc-gray-50 p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2 uppercase text-sm">Registration</h3>
+                <p class="text-gray-600 text-sm">
+                    Section 8 Company under Companies Act, 2013<br>
+                    CIN: U88900DL2025NPL455183<br>
+                    Registered: 12-09-2025
+                </p>
+            </div>
+            <div class="bg-stc-gray-50 p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2 uppercase text-sm">DARPAN Details</h3>
+                <p class="text-gray-600 text-sm">
+                    DARPAN ID: DL/2025/0817469<br>
+                    Registration Date: 16-09-2025<br>
+                    State: Delhi (South)
+                </p>
+            </div>
+            <div class="bg-stc-gray-50 p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2 uppercase text-sm">Office Bearers</h3>
+                <p class="text-gray-600 text-sm">
+                    Kartik Sharma - President<br>
+                    Noman Ali - Vice President<br>
+                    Roshan - Director
+                </p>
+            </div>
+            <div class="bg-stc-gray-50 p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2 uppercase text-sm">Working Sectors</h3>
+                <p class="text-gray-600 text-sm">
+                    Art & Culture, Children,<br>
+                    Education & Literacy,<br>
+                    Environment & Forests, Food Processing
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-stc-red-500">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-black text-white mb-6 font-display uppercase">Join Our Mission</h2>
+        <p class="text-xl text-red-100 mb-8">
+            Together, we can ensure every child has the chance to thrive.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'donate' %}"
+                class="bg-white hover:bg-gray-100 text-stc-red-500 font-bold py-4 px-10 transition-colors uppercase tracking-wide">
+                Donate Now
+            </a>
+            <a href="{% url 'stories_list' %}"
+                class="border-2 border-white hover:bg-white hover:text-stc-red-500 text-white font-bold py-4 px-10 transition-colors uppercase tracking-wide">
+                See Our Impact
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

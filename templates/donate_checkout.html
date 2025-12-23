@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Complete Payment - Amaanitvam Foundation{% endblock %}
+
+{% block content %}
+<!-- Checkout Section -->
+<section class="min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
+    <div class="max-w-md mx-auto px-4 w-full">
+        <div class="bg-white p-8 shadow-lg text-center">
+            <!-- Amount Display -->
+            <div class="mb-8">
+                <p class="text-sm text-gray-500 uppercase tracking-wide mb-2">Donation Amount</p>
+                <p class="text-5xl font-black text-stc-red-500 font-display">₹{{ amount_display }}</p>
+            </div>
+
+            <!-- Donor Info -->
+            <div class="bg-stc-gray-50 p-4 mb-8 text-left border-l-4 border-stc-red-500">
+                <p class="text-sm text-gray-500 uppercase tracking-wide mb-1">Donating as</p>
+                <p class="font-bold text-stc-black">{{ donor_name }}</p>
+                <p class="text-sm text-gray-600">{{ donor_email }}</p>
+            </div>
+
+            <!-- Razorpay Button -->
+            <button id="pay-button"
+                class="w-full bg-stc-red-500 hover:bg-stc-red-600 text-white font-black py-4 px-8 transition-colors uppercase tracking-wide text-lg mb-4">
+                Pay with Razorpay
+            </button>
+
+            <a href="{% url 'donate' %}"
+                class="text-stc-red-500 hover:text-stc-black text-sm font-semibold uppercase tracking-wide">
+                ← Change amount
+            </a>
+
+            <p class="text-xs text-gray-400 mt-6">
+                🔒 Secured by Razorpay
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ razorpay_key_id }}",
+        "amount": "{{ amount }}",
+        "currency": "{{ currency }}",
+        "name": "Amaanitvam Foundation",
+        "description": "Donation for Children's Welfare",
+        "order_id": "{{ razorpay_order_id }}",
+        "handler": function (response) {
+            fetch("{% url 'payment_callback' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.href = "{% url 'payment_success' %}?donation_id=" + data.donation_id;
+                    } else {
+                        window.location.href = "{% url 'payment_failed' %}";
+                    }
+                })
+                .catch(() => window.location.href = "{% url 'payment_failed' %}");
+        },
+        "prefill": {
+            "name": "{{ donor_name }}",
+            "email": "{{ donor_email }}",
+            "contact": "{{ donor_phone }}"
+        },
+        "theme": { "color": "#E11B22" }
+    };
+
+    var rzp = new Razorpay(options);
+    document.getElementById('pay-button').onclick = function (e) {
+        rzp.open();
+        e.preventDefault();
+    };
+</script>
+{% endblock %}

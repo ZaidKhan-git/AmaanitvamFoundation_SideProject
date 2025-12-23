@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}Ways to Help - Amaanitvam Foundation{% endblock %}
+{% block meta_description %}Discover different ways you can help underprivileged children - donate, volunteer, partner
+with us, or spread awareness.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative py-28 bg-stc-black overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Hands joining together" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 text-center">
+        <span class="inline-block text-stc-red-500 text-sm font-bold uppercase tracking-[0.3em] mb-4">Get
+            Involved</span>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 font-display uppercase leading-tight">
+            Ways to <span class="text-stc-red-500">Help</span>
+        </h1>
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="w-12 h-1 bg-stc-red-500"></div>
+            <div class="w-3 h-3 bg-stc-red-500 rotate-45"></div>
+            <div class="w-12 h-1 bg-stc-red-500"></div>
+        </div>
+        <p class="text-xl text-gray-300 max-w-xl mx-auto">
+            Join our mission to protect and empower children in need.
+        </p>
+    </div>
+</section>
+
+<!-- Ways to Help Grid -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Donate -->
+            <div class="bg-stc-red-500 p-10 text-white">
+                <div class="w-16 h-16 bg-white flex items-center justify-center mb-6">
+                    <span class="text-stc-red-500 text-3xl">❤️</span>
+                </div>
+                <h2 class="text-2xl font-black font-display uppercase mb-4">Make a Donation</h2>
+                <p class="text-red-100 mb-6 leading-relaxed">
+                    Your financial contribution directly supports our programs. Every rupee helps provide education,
+                    healthcare, and nutrition to children in need.
+                </p>
+                <ul class="space-y-2 text-red-100 text-sm mb-8">
+                    <li>• One-time or monthly donations</li>
+                    <li>• 80G tax benefits available</li>
+                    <li>• 100% goes to child welfare programs</li>
+                </ul>
+                <a href="{% url 'donate' %}"
+                    class="inline-block bg-white hover:bg-gray-100 text-stc-red-500 font-bold py-3 px-8 transition-colors uppercase tracking-wide">
+                    Donate Now
+                </a>
+            </div>
+
+            <!-- Monthly Giving -->
+            <div class="bg-stc-black p-10 text-white">
+                <div class="w-16 h-16 bg-stc-red-500 flex items-center justify-center mb-6">
+                    <span class="text-white text-3xl">🔄</span>
+                </div>
+                <h2 class="text-2xl font-black font-display uppercase mb-4">Become a Champion</h2>
+                <p class="text-gray-400 mb-6 leading-relaxed">
+                    Join our community of monthly donors. Your recurring support provides stable, predictable funding
+                    that helps us plan long-term programs.
+                </p>
+                <ul class="space-y-2 text-gray-400 text-sm mb-8">
+                    <li>• Automatic monthly contributions</li>
+                    <li>• Exclusive updates on impact</li>
+                    <li>• Cancel anytime</li>
+                </ul>
+                <a href="{% url 'donate' %}"
+                    class="inline-block bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
+                    Start Monthly Giving
+                </a>
+            </div>
+
+            <!-- Volunteer -->
+            <div class="bg-stc-gray-50 p-10 border-t-4 border-stc-red-500">
+                <div class="w-16 h-16 bg-stc-black flex items-center justify-center mb-6">
+                    <span class="text-white text-3xl">🙋</span>
+                </div>
+                <h2 class="text-2xl font-black text-stc-black font-display uppercase mb-4">Volunteer</h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Share your time and skills. Whether you're a teacher, doctor, designer, or just someone who cares,
+                    we have opportunities for you.
+                </p>
+                <ul class="space-y-2 text-gray-600 text-sm mb-8">
+                    <li>• Teaching and tutoring</li>
+                    <li>• Event organization</li>
+                    <li>• Content and design</li>
+                    <li>• On-ground support</li>
+                </ul>
+                <a href="mailto:amaanitvamfoundation@gmail.com"
+                    class="inline-block bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
+                    Apply to Volunteer
+                </a>
+            </div>
+
+            <!-- Corporate Partnership -->
+            <div class="bg-stc-gray-50 p-10 border-t-4 border-stc-red-500">
+                <div class="w-16 h-16 bg-stc-black flex items-center justify-center mb-6">
+                    <span class="text-white text-3xl">🏢</span>
+                </div>
+                <h2 class="text-2xl font-black text-stc-black font-display uppercase mb-4">Corporate Partnership</h2>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Partner with us for CSR initiatives. We offer customized programs that align with your company's
+                    values and make a measurable impact.
+                </p>
+                <ul class="space-y-2 text-gray-600 text-sm mb-8">
+                    <li>• CSR program implementation</li>
+                    <li>• Employee volunteering</li>
+                    <li>• Cause marketing campaigns</li>
+                    <li>• Impact measurement & reporting</li>
+                </ul>
+                <a href="mailto:amaanitvamfoundation@gmail.com"
+                    class="inline-block bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
+                    Partner With Us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Spread Awareness -->
+<section class="py-16 bg-white border-t">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-2xl font-black text-stc-black mb-4 font-display uppercase">Spread the Word</h2>
+        <div class="w-16 h-1 bg-stc-red-500 mx-auto mb-6"></div>
+        <p class="text-gray-600 mb-8">
+            Can't donate right now? You can still help by sharing our mission with your network. Follow us on social
+            media and help amplify our cause.
+        </p>
+        <div class="flex gap-4 justify-center flex-wrap">
+            <a href="https://www.facebook.com/people/Amaanitvam-Foundation/61583427622759/" target="_blank"
+                class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors font-bold"
+                title="Facebook">
+                FB
+            </a>
+            <a href="https://www.instagram.com/amaanitvamfoundation" target="_blank"
+                class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors font-bold"
+                title="Instagram">
+                IG
+            </a>
+            <a href="https://x.com/AmaanitvamOrg" target="_blank"
+                class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors font-bold"
+                title="X (Twitter)">
+                X
+            </a>
+            <a href="https://www.linkedin.com/company/amaanitvam-foundation/" target="_blank"
+                class="w-12 h-12 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors font-bold"
+                title="LinkedIn">
+                LI
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-stc-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-2xl font-black text-stc-black mb-8 font-display uppercase text-center">Common Questions</h2>
+
+        <div class="space-y-4">
+            <div class="bg-white p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2">Is my donation tax-deductible?</h3>
+                <p class="text-gray-600 text-sm">Yes! Amaanitvam Foundation is a Section 8 company with 80G
+                    certification. You'll receive a tax receipt via email after your donation.</p>
+            </div>
+            <div class="bg-white p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2">How is my donation used?</h3>
+                <p class="text-gray-600 text-sm">100% of your donation goes directly to our programs. We maintain
+                    complete transparency and publish annual impact reports.</p>
+            </div>
+            <div class="bg-white p-6 border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-2">Can I donate in someone's name?</h3>
+                <p class="text-gray-600 text-sm">Yes! Gift donations are a meaningful way to honor someone. Contact us
+                    for a personalized gift certificate.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-stc-red-500">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-black text-white mb-6 font-display uppercase">Ready to Make a Difference?</h2>
+        <p class="text-xl text-red-100 mb-8">
+            Whatever way you choose to help, you're giving children hope for a brighter future.
+        </p>
+        <a href="{% url 'donate' %}"
+            class="inline-block bg-white hover:bg-gray-100 text-stc-red-500 font-black py-4 px-12 transition-colors uppercase tracking-wide">
+            Start Today
+        </a>
+    </div>
+</section>
+{% endblock %}

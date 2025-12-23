@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Stories - Amaanitvam Foundation{% endblock %}
+{% block meta_description %}Read inspiring stories of hope and transformation from Amaanitvam Foundation's work with
+underprivileged children.{% endblock %}
+
+{% block content %}
+{% load static %}
+<!-- Hero Section with Background Video -->
+<section class="relative min-h-[85vh] flex items-center">
+    <!-- Background Video -->
+    <div class="absolute inset-0 bg-cover bg-center">
+        <video id="heroVideo" class="absolute inset-0 w-full h-full object-cover" autoplay muted playsinline loop>
+            <source src="{% static '6548176-hd_1920_1080_24fps.mp4' %}" type="video/mp4">
+        </video>
+        <!-- Dark overlay gradient like homepage -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="max-w-2xl animate-fade-in-up">
+            <!-- Urgency Tag -->
+            <div
+                class="inline-block bg-stc-red-500 text-white text-xs font-bold px-4 py-2 mb-6 uppercase tracking-wider">
+                Impact Stories
+            </div>
+
+            <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 font-display leading-tight uppercase">
+                Our <span class="text-stc-red-500">Stories</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
+                Real stories of hope, resilience, and transformation from children whose lives we've touched.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#stories-grid"
+                    class="bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-4 px-10 text-center transition-all duration-200 uppercase tracking-wide">
+                    Read Stories
+                </a>
+                <a href="{% url 'donate' %}"
+                    class="bg-white hover:bg-gray-100 text-stc-black font-bold py-4 px-10 text-center transition-all duration-200 uppercase tracking-wide">
+                    Donate Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Video Smooth Loop Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const video = document.getElementById('heroVideo');
+        if (video) {
+            // Smooth fade transition for seamless looping
+            video.style.transition = 'opacity 0.5s ease-in-out';
+
+            video.addEventListener('timeupdate', function () {
+                const fadeTime = 0.5;
+                const timeLeft = video.duration - video.currentTime;
+
+                if (timeLeft <= fadeTime && timeLeft > 0) {
+                    video.style.opacity = Math.max(timeLeft / fadeTime, 0.3);
+                } else if (video.currentTime < fadeTime) {
+                    video.style.opacity = Math.min(video.currentTime / fadeTime, 1);
+                } else {
+                    video.style.opacity = 1;
+                }
+            });
+
+            video.addEventListener('ended', function () {
+                video.style.opacity = 0;
+                video.currentTime = 0;
+                video.play();
+            });
+
+            video.addEventListener('error', function () {
+                video.style.display = 'none';
+            });
+        }
+    });
+</script>
+
+<!-- Category Filter -->
+<section class="py-6 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap gap-3 justify-center">
+            <a href="{% url 'stories_list' %}"
+                class="px-6 py-2 font-bold text-sm uppercase tracking-wide transition-all duration-200 {% if not selected_category %}bg-stc-red-500 text-white{% else %}bg-stc-gray-100 text-stc-black hover:bg-stc-gray-200{% endif %}">
+                All Stories
+            </a>
+            {% for value, label in categories %}
+            <a href="{% url 'stories_list' %}?category={{ value }}"
+                class="px-6 py-2 font-bold text-sm uppercase tracking-wide transition-all duration-200 {% if selected_category == value %}bg-stc-red-500 text-white{% else %}bg-stc-gray-100 text-stc-black hover:bg-stc-gray-200{% endif %}">
+                {{ label }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Stories Grid -->
+<section id="stories-grid" class="py-16 bg-stc-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if stories %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for story in stories %}
+            <article class="bg-white group card-hover">
+                <!-- Story Image -->
+                <div class="relative h-56 bg-gray-200 overflow-hidden">
+                    {% if story.cover_image %}
+                    <img src="{{ story.cover_image.url }}" alt="{{ story.title }}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    {% else %}
+                    <div
+                        class="w-full h-full bg-gradient-to-br from-stc-red-500 to-stc-black flex items-center justify-center">
+                        <span class="text-7xl text-white/30">📸</span>
+                    </div>
+                    {% endif %}
+                    <!-- Category Badge -->
+                    <span
+                        class="absolute top-4 left-4 bg-stc-red-500 text-white text-xs font-bold px-3 py-1 uppercase tracking-wide">
+                        {{ story.get_category_display }}
+                    </span>
+                    {% if story.has_video %}
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center">
+                            <span class="text-stc-red-500 text-xl ml-1">▶</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Story Content -->
+                <div class="p-6">
+                    <span class="text-xs text-gray-500 uppercase tracking-wide">{{ story.created_date|date:"F d, Y"
+                        }}</span>
+                    <h3
+                        class="text-lg font-bold text-stc-black mt-2 mb-3 font-display group-hover:text-stc-red-500 transition-colors line-clamp-2">
+                        {{ story.title }}
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                        {{ story.body|striptags|truncatechars:120 }}
+                    </p>
+                    <a href="{% url 'story_detail' story.slug %}"
+                        class="text-stc-red-500 font-bold text-sm uppercase tracking-wide hover:underline">
+                        Read Story →
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-20 bg-white">
+            <span class="text-8xl mb-6 block">📝</span>
+            <h2 class="text-2xl font-black text-stc-black mb-4 font-display uppercase">No Stories Yet</h2>
+            <p class="text-gray-600 max-w-md mx-auto mb-8">
+                {% if selected_category %}
+                No stories in this category yet. Check back soon or explore other categories!
+                {% else %}
+                We're preparing inspiring stories to share with you. Check back soon!
+                {% endif %}
+            </p>
+            {% if selected_category %}
+            <a href="{% url 'stories_list' %}"
+                class="inline-block bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 uppercase text-sm tracking-wide">
+                View All Stories
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-stc-red-500">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-4 font-display uppercase">
+            Help Us Write More Success Stories
+        </h2>
+        <p class="text-lg text-red-100 mb-8 max-w-2xl mx-auto">
+            Your support enables us to reach more children and create more stories of transformation.
+        </p>
+        <a href="{% url 'donate' %}"
+            class="inline-block bg-white hover:bg-gray-100 text-stc-red-500 font-bold py-4 px-10 transition-colors uppercase tracking-wide">
+            Donate Now
+        </a>
+    </div>
+</section>
+{% endblock %}

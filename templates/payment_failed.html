@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment Failed - Amaanitvam Foundation{% endblock %}
+
+{% block content %}
+<!-- Failed Section -->
+<section class="min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
+    <div class="max-w-lg mx-auto px-4 text-center">
+        <div class="bg-white p-10 shadow-lg">
+            <!-- Failed Icon -->
+            <div class="w-24 h-24 bg-stc-red-500 flex items-center justify-center mx-auto mb-6">
+                <span class="text-white text-5xl">✕</span>
+            </div>
+
+            <h1 class="text-3xl font-black text-stc-black mb-4 font-display uppercase">
+                Payment Unsuccessful
+            </h1>
+
+            <p class="text-lg text-gray-600 mb-8">
+                We couldn't process your payment. No amount has been deducted.
+            </p>
+
+            <div class="bg-stc-gray-50 p-6 mb-8 text-left border-l-4 border-stc-red-500">
+                <h3 class="font-bold text-stc-black mb-3 uppercase text-sm">This could happen due to:</h3>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li>• Insufficient balance</li>
+                    <li>• Payment declined by bank</li>
+                    <li>• Network connectivity issues</li>
+                    <li>• Session timeout</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'donate' %}"
+                    class="bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
+                    Try Again
+                </a>
+                <a href="{% url 'home' %}"
+                    class="bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
+                    Return Home
+                </a>
+            </div>
+
+            <p class="text-sm text-gray-500 mt-8">
+                Need help? <a href="mailto:amaanitvamfoundation@gmail.com"
+                    class="text-stc-red-500 hover:underline font-semibold">Contact us</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

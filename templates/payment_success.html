@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Thank You! - Amaanitvam Foundation{% endblock %}
+
+{% block content %}
+<!-- Success Section -->
+<section class="min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+        <div class="bg-white p-10 shadow-lg">
+            <!-- Success Icon -->
+            <div class="w-24 h-24 bg-green-500 flex items-center justify-center mx-auto mb-6">
+                <span class="text-white text-5xl">✓</span>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-black text-stc-black mb-4 font-display uppercase">
+                Thank You!
+            </h1>
+
+            <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto">
+                Your generosity helps save and protect children's lives. You are making a real difference.
+            </p>
+
+            {% if donation %}
+            <div class="bg-stc-gray-50 p-6 mb-8 text-left max-w-sm mx-auto border-l-4 border-stc-red-500">
+                <h2 class="font-black text-stc-black mb-4 uppercase text-sm tracking-wide">Donation Receipt</h2>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Amount:</span>
+                        <span class="font-bold text-stc-black">₹{{ donation.amount }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Transaction ID:</span>
+                        <span class="font-mono text-xs text-gray-600">{{ donation.transaction_id|truncatechars:20
+                            }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Date:</span>
+                        <span class="text-stc-black">{{ donation.created_at|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <p class="text-sm text-gray-500 mb-6">
+                📧 A confirmation email with your 80G tax receipt will be sent shortly.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'home' %}"
+                    class="bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-colors uppercase text-sm tracking-wide">
+                    Return Home
+                </a>
+                <a href="{% url 'stories_list' %}"
+                    class="bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-colors uppercase text-sm tracking-wide">
+                    See Our Impact
+                </a>
+            </div>
+
+            <!-- Social Share -->
+            <div class="mt-10 pt-8 border-t border-gray-200">
+                <p class="text-sm text-gray-500 uppercase tracking-wide mb-4">Share & inspire others</p>
+                <div class="flex gap-3 justify-center">
+                    <a href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20Amaanitvam%20Foundation%20to%20help%20children%20in%20need.%20Join%20me!"
+                        target="_blank"
+                        class="w-10 h-10 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors text-sm font-bold">
+                        X
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php" target="_blank"
+                        class="w-10 h-10 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors text-sm font-bold">
+                        FB
+                    </a>
+                    <a href="https://wa.me/?text=I%20just%20donated%20to%20Amaanitvam%20Foundation.%20You%20can%20too!"
+                        target="_blank"
+                        class="w-10 h-10 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors text-sm font-bold">
+                        WA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
