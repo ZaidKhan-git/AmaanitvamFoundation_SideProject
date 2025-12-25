@@ -9,8 +9,9 @@ underprivileged children through education, healthcare, and nutrition.{% endbloc
 <section class="relative py-28 bg-stc-black overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1536337005238-94b997371b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Volunteers helping children" class="w-full h-full object-cover">
+        <img src="{{ media.about_hero_bg|default:'https://images.unsplash.com/photo-1536337005238-94b997371b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' }}"
+            alt="{{ media.about_hero_bg_obj.alt_text|default:'Volunteers helping children' }}"
+            class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-stc-black/70"></div>
     </div>
     <div class="relative max-w-4xl mx-auto px-4 text-center">
@@ -26,19 +27,15 @@ underprivileged children through education, healthcare, and nutrition.{% endbloc
             <div class="w-3 h-3 bg-stc-red-500 animate-heart-pulse"></div>
             <div class="w-12 h-1 bg-stc-red-500 animate-line-grow"></div>
         </div>
-        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed animate-subtle-fade-up">
-            A Section 8 Non-Profit Company fighting for children's rights across India.
-        </p>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed animate-subtle-fade-up">{{
+            site.about_hero_description }}</p>
     </div>
 </section>
 
 <!-- Mission Statement -->
 <section class="py-16 bg-stc-red-500">
     <div class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-2xl md:text-3xl text-white font-bold leading-relaxed">
-            "We believe every child deserves a chance to survive, learn, and be protected — no matter where they live or
-            their circumstances."
-        </p>
+        <p class="text-2xl md:text-3xl text-white font-bold leading-relaxed">"{{ site.about_mission_quote }}"</p>
     </div>
 </section>
 
@@ -55,21 +52,9 @@ underprivileged children through education, healthcare, and nutrition.{% endbloc
                     <div class="w-2 h-2 bg-stc-red-500 rotate-45 animate-diamond-pulse"></div>
                 </div>
             </div>
-            <p class="text-gray-600 mb-6 leading-relaxed">
-                Amaanitvam Foundation was born from a simple belief: every child, regardless of their circumstances,
-                deserves a chance to dream and the support to achieve those dreams.
-            </p>
-            <p class="text-gray-600 mb-6 leading-relaxed">
-                Registered on September 12, 2025, we started with a vision to provide support to children in
-                underserved
-                communities in Delhi. Today, we're working across Art & Culture, Children, Education & Literacy,
-                Environment & Forests, and Food Processing sectors.
-            </p>
-            <p class="text-gray-600 leading-relaxed">
-                The name "Amaanitvam" comes from Sanskrit, meaning "dignity" — a core value that drives everything
-                we do. We believe in empowering children, not through charity alone, but by building systems that
-                foster independence and self-worth.
-            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">{{ site.about_story_1 }}</p>
+            <p class="text-gray-600 mb-6 leading-relaxed">{{ site.about_story_2 }}</p>
+            <p class="text-gray-600 leading-relaxed">{{ site.about_story_3 }}</p>
         </div>
         <div class="bg-stc-red-500 h-96 flex items-center justify-center">
             <span class="text-9xl text-white/30">🤝</span>
@@ -94,45 +79,45 @@ underprivileged children through education, healthcare, and nutrition.{% endbloc
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Education -->
+            <!-- School Supplies & Uniforms -->
             <div class="bg-white p-8 border-t-4 border-stc-red-500 rounded-xl shadow-lg">
                 <div class="w-14 h-14 bg-stc-black flex items-center justify-center mb-6">
-                    <span class="text-white text-2xl">📚</span>
+                    <span class="text-white text-2xl">🎒</span>
                 </div>
-                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Education</h3>
+                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">School Supplies</h3>
                 <ul class="text-gray-600 space-y-2 text-sm">
-                    <li>• School supplies and uniforms</li>
-                    <li>• After-school tutoring programs</li>
-                    <li>• Digital literacy initiatives</li>
-                    <li>• Scholarship for higher education</li>
+                    <li>• Books and stationery kits</li>
+                    <li>• School uniforms and shoes</li>
+                    <li>• Backpacks and essentials</li>
+                    <li>• Learning materials</li>
                 </ul>
             </div>
 
-            <!-- Health -->
+            <!-- Digital Literacy -->
             <div class="bg-white p-8 border-t-4 border-stc-red-500 rounded-xl shadow-lg">
                 <div class="w-14 h-14 bg-stc-black flex items-center justify-center mb-6">
-                    <span class="text-white text-2xl">🏥</span>
+                    <span class="text-white text-2xl">💻</span>
                 </div>
-                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Healthcare</h3>
+                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Digital Literacy</h3>
                 <ul class="text-gray-600 space-y-2 text-sm">
-                    <li>• Regular health check-ups</li>
-                    <li>• Vaccination drives</li>
-                    <li>• Mental health support</li>
-                    <li>• Emergency medical assistance</li>
+                    <li>• Computer training programs</li>
+                    <li>• Internet and online safety</li>
+                    <li>• Coding basics for kids</li>
+                    <li>• Technology access initiatives</li>
                 </ul>
             </div>
 
-            <!-- Nutrition -->
+            <!-- Scholarships & Tutoring -->
             <div class="bg-white p-8 border-t-4 border-stc-red-500 rounded-xl shadow-lg">
                 <div class="w-14 h-14 bg-stc-black flex items-center justify-center mb-6">
-                    <span class="text-white text-2xl">🍎</span>
+                    <span class="text-white text-2xl">🎓</span>
                 </div>
-                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Nutrition</h3>
+                <h3 class="text-xl font-bold text-stc-black mb-4 font-display uppercase">Scholarships</h3>
                 <ul class="text-gray-600 space-y-2 text-sm">
-                    <li>• Daily mid-day meals</li>
-                    <li>• Nutrition awareness programs</li>
-                    <li>• Kitchen gardens in schools</li>
-                    <li>• Food security initiatives</li>
+                    <li>• Higher education scholarships</li>
+                    <li>• After-school tutoring</li>
+                    <li>• Career guidance sessions</li>
+                    <li>• Mentorship programs</li>
                 </ul>
             </div>
         </div>

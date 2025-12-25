@@ -10,9 +10,9 @@
 
     <!-- Favicon -->
     {% load static %}
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-black.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-black.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon-black.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'FaviconLatest.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'FaviconLatest.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'FaviconLatest.png' %}">
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,20 +22,20 @@
                 extend: {
                     colors: {
                         'stc-red': {
-                            50: '#FEF2F2',
-                            100: '#FEE2E2',
-                            200: '#FECACA',
-                            300: '#FCA5A5',
-                            400: '#F87171',
-                            500: '#E11B22', /* Save the Children Red */
-                            600: '#C81920',
-                            700: '#A3151A',
-                            800: '#7F1014',
-                            900: '#5C0C0F',
+                            50: '#FDF2F4',
+                            100: '#FCE4E8',
+                            200: '#F9C9D0',
+                            300: '#F5A6B2',
+                            400: '#EA8A98',
+                            500: '#E36678', /* Salmon Pink rgb(227, 102, 120) */
+                            600: '#D15066',
+                            700: '#B33D52',
+                            800: '#942A3E',
+                            900: '#76172A',
                         },
                         'stc-black': '#1A1A1A',
                         'stc-gray': {
-                            50: '#F9FAFB',
+                            50: '#FFE7F2', /* Light Pink rgb(255, 231, 242) */
                             100: '#F3F4F6',
                             200: '#E5E7EB',
                             300: '#D1D5DB',
@@ -55,14 +55,13 @@
         }
     </script>
 
-    <!-- Google Fonts - Merriweather (Headings) + Lato (Body) -->
+    <!-- Google Fonts - Merriweather (Headings) + Lato (Body) + Poppins (Donate Pages) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700;900&family=Playfair+Display:wght@400;700;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Merriweather:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Custom Styles -->
     <style>
         body {
             font-family: 'Lato', sans-serif;
@@ -110,10 +109,10 @@
             animation: fadeInUp 0.5s ease-out forwards;
         }
 
-        /* Save the Children style red bar */
+        /* Theme color bar */
         .red-bar {
             height: 4px;
-            background: #E11B22;
+            background: #E36678;
         }
 
         /* Floating animation for decorative circles */
@@ -448,7 +447,8 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="{% url 'home' %}" class="flex items-center space-x-4">
-                        <img src="{% static 'favicon-white.png' %}" alt="Amaanitvam Foundation Logo"
+                        <img src="{% if media.navbar_logo %}{{ media.navbar_logo }}{% else %}{% static 'FaviconLatest.png' %}{% endif %}"
+                            alt="Amaanitvam Foundation Logo"
                             class="w-20 h-20 object-contain hover:scale-105 transition-transform duration-200">
                         <div>
                             <span
@@ -462,18 +462,18 @@
                 <!-- Desktop Navigation Links -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="{% url 'home' %}"
-                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Home</a>
+                        class="{% if request.resolver_match.url_name == 'home' %}text-stc-red-500 border-b-2 border-stc-red-500{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold transition-colors text-sm uppercase tracking-wide pb-1">Home</a>
                     <a href="{% url 'about' %}"
-                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Who
+                        class="{% if request.resolver_match.url_name == 'about' %}text-stc-red-500 border-b-2 border-stc-red-500{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold transition-colors text-sm uppercase tracking-wide pb-1">Who
                         We Are</a>
                     <a href="{% url 'what_we_do' %}"
-                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">What
+                        class="{% if request.resolver_match.url_name == 'what_we_do' %}text-stc-red-500 border-b-2 border-stc-red-500{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold transition-colors text-sm uppercase tracking-wide pb-1">What
                         We Do</a>
                     <a href="{% url 'ways_to_help' %}"
-                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Ways
+                        class="{% if request.resolver_match.url_name == 'ways_to_help' %}text-stc-red-500 border-b-2 border-stc-red-500{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold transition-colors text-sm uppercase tracking-wide pb-1">Ways
                         to Help</a>
                     <a href="{% url 'stories_list' %}"
-                        class="text-stc-black hover:text-stc-red-500 font-semibold transition-colors text-sm uppercase tracking-wide">Our
+                        class="{% if request.resolver_match.url_name == 'stories_list' or request.resolver_match.url_name == 'story_detail' %}text-stc-red-500 border-b-2 border-stc-red-500{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold transition-colors text-sm uppercase tracking-wide pb-1">Our
                         Stories</a>
                 </div>
 
@@ -501,18 +501,18 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
             <div class="px-4 py-4 space-y-3">
                 <a href="{% url 'home' %}"
-                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Home</a>
+                    class="block {% if request.resolver_match.url_name == 'home' %}text-stc-red-500 border-l-4 border-stc-red-500 pl-3{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold py-2 uppercase text-sm">Home</a>
                 <a href="{% url 'about' %}"
-                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Who We
-                    Are</a>
+                    class="block {% if request.resolver_match.url_name == 'about' %}text-stc-red-500 border-l-4 border-stc-red-500 pl-3{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold py-2 uppercase text-sm">Who
+                    We Are</a>
                 <a href="{% url 'what_we_do' %}"
-                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">What We
-                    Do</a>
+                    class="block {% if request.resolver_match.url_name == 'what_we_do' %}text-stc-red-500 border-l-4 border-stc-red-500 pl-3{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold py-2 uppercase text-sm">What
+                    We Do</a>
                 <a href="{% url 'ways_to_help' %}"
-                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Ways to
-                    Help</a>
+                    class="block {% if request.resolver_match.url_name == 'ways_to_help' %}text-stc-red-500 border-l-4 border-stc-red-500 pl-3{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold py-2 uppercase text-sm">Ways
+                    to Help</a>
                 <a href="{% url 'stories_list' %}"
-                    class="block text-stc-black hover:text-stc-red-500 font-semibold py-2 uppercase text-sm">Our
+                    class="block {% if request.resolver_match.url_name == 'stories_list' or request.resolver_match.url_name == 'story_detail' %}text-stc-red-500 border-l-4 border-stc-red-500 pl-3{% else %}text-stc-black hover:text-stc-red-500{% endif %} font-semibold py-2 uppercase text-sm">Our
                     Stories</a>
                 <a href="{% url 'donate' %}"
                     class="block bg-stc-red-500 text-white text-center font-bold py-3 px-6 mt-4 uppercase text-sm">
@@ -571,8 +571,8 @@
                 <!-- About -->
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-4 mb-6">
-                        <img src="{% static 'favicon-gray.png' %}" alt="Amaanitvam Foundation Logo"
-                            class="w-20 h-20 object-contain">
+                        <img src="{% if media.footer_logo %}{{ media.footer_logo }}{% else %}{% static 'favicon-gray.png' %}{% endif %}"
+                            alt="Amaanitvam Foundation Logo" class="w-20 h-20 object-contain">
                         <span class="text-lg font-black font-display uppercase">Amaanitvam Foundation</span>
                     </div>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
@@ -620,7 +620,7 @@
                         </li>
                         <li class="flex items-center space-x-2">
                             <span class="text-stc-red-500">📞</span>
-                            <span>+91 98XX 92XX 66</span>
+                            <span>+91 98917 57935</span>
                         </li>
                     </ul>
 
@@ -629,22 +629,34 @@
                         <a href="https://www.facebook.com/people/Amaanitvam-Foundation/61583427622759/" target="_blank"
                             class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
                             title="Facebook">
-                            <span class="text-sm">FB</span>
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
                         </a>
                         <a href="https://www.instagram.com/amaanitvamfoundation" target="_blank"
                             class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
                             title="Instagram">
-                            <span class="text-sm">IG</span>
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                            </svg>
                         </a>
                         <a href="https://x.com/AmaanitvamOrg" target="_blank"
                             class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
                             title="X (Twitter)">
-                            <span class="text-sm">X</span>
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
                         </a>
                         <a href="https://www.linkedin.com/company/amaanitvam-foundation/" target="_blank"
                             class="w-10 h-10 bg-gray-800 hover:bg-stc-red-500 flex items-center justify-center transition-colors"
                             title="LinkedIn">
-                            <span class="text-sm">LI</span>
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
                         </a>
                     </div>
                 </div>

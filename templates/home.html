@@ -7,7 +7,7 @@
 <section class="relative min-h-[85vh] flex items-center">
     <!-- Background Image -->
     <div class="absolute inset-0 bg-cover bg-center"
-        style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+        style="background-image: url('{% if media.home_hero_bg %}{{ media.home_hero_bg }}{% else %}https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80{% endif %}');">
         <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
     </div>
 
@@ -17,19 +17,16 @@
             <!-- Urgency Tag -->
             <div
                 class="inline-block bg-stc-red-500 text-white text-xs font-bold px-4 py-2 mb-6 uppercase tracking-wider">
-                Take Action Now
+                {{ site.home_hero_tag|default:"Take Action Now" }}
             </div>
 
             <h1
                 class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 font-display leading-tight uppercase">
-                Every Child Deserves<br>
-                <span class="text-stc-red-500">A Fighting Chance</span>
+                {{ site.home_hero_title_1|default:"Every Child Deserves" }}<br>
+                <span class="text-stc-red-500">{{ site.home_hero_title_2|default:"A Fighting Chance" }}</span>
             </h1>
 
-            <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
-                Millions of children in India face hunger, lack access to education, and are denied basic healthcare.
-                Your support can change their story.
-            </p>
+            <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">{{ site.home_hero_description }}</p>
 
             <div class="flex flex-col sm:flex-row gap-4">
                 <a href="{% url 'donate' %}"
@@ -50,7 +47,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <p class="text-white font-semibold text-center md:text-left">
-                <span class="font-black">URGENT:</span> Children need your help now. Every donation makes a difference.
+                <span class="font-black">URGENT:</span> {{ site.home_urgent_text }}
             </p>
             <a href="{% url 'donate' %}"
                 class="bg-white text-stc-red-500 font-bold py-2 px-6 hover:bg-gray-100 transition-colors uppercase text-sm whitespace-nowrap">
@@ -60,36 +57,6 @@
     </div>
 </section>
 
-<!-- Impact Stats Grid -->
-<section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-gray-200">
-            <!-- Stat 1 -->
-            <div class="p-10 text-center border-b md:border-b-0 md:border-r border-gray-200">
-                <div class="text-5xl md:text-6xl font-black text-stc-red-500 font-display mb-2">
-                    {{ impact_metrics.children_helped|default:"5,000" }}+
-                </div>
-                <p class="text-stc-black font-semibold uppercase tracking-wide text-sm">Children Reached</p>
-            </div>
-
-            <!-- Stat 2 -->
-            <div class="p-10 text-center border-b md:border-b-0 md:border-r border-gray-200">
-                <div class="text-5xl md:text-6xl font-black text-stc-red-500 font-display mb-2">
-                    {{ impact_metrics.meals_served|default:"25,000" }}+
-                </div>
-                <p class="text-stc-black font-semibold uppercase tracking-wide text-sm">Meals Provided</p>
-            </div>
-
-            <!-- Stat 3 -->
-            <div class="p-10 text-center">
-                <div class="text-5xl md:text-6xl font-black text-stc-red-500 font-display mb-2">
-                    {{ impact_metrics.schools_supported|default:"15" }}
-                </div>
-                <p class="text-stc-black font-semibold uppercase tracking-wide text-sm">Schools Supported</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- What We Do Section -->
 <section class="py-20 bg-stc-gray-50">
@@ -104,10 +71,7 @@
                 <div class="w-3 h-3 bg-stc-red-500 rotate-45 animate-diamond-pulse"></div>
                 <div class="w-12 h-1 bg-stc-red-500"></div>
             </div>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                We fight for children's rights every day, ensuring they have access to the essentials they need to
-                survive and thrive.
-            </p>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ site.home_whatwedo_description }}</p>
         </div>
 
         <!-- Flowing Photo River -->
@@ -115,53 +79,65 @@
             <div class="flex gap-4 animate-scroll">
                 <!-- Photo Set 1 -->
                 <div class="flex-shrink-0 w-48 h-32 mt-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=300&h=200&fit=crop"
-                        alt="Children learning" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_1|default:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_1_obj.alt_text|default:'Children learning' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mb-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=300&h=200&fit=crop"
-                        alt="Education" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_2|default:'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_2_obj.alt_text|default:'Education' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mt-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=300&h=200&fit=crop"
-                        alt="Healthcare" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_3|default:'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_3_obj.alt_text|default:'Healthcare' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mb-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=300&h=200&fit=crop"
-                        alt="Children playing" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_4|default:'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_4_obj.alt_text|default:'Children playing' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mt-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=300&h=200&fit=crop"
-                        alt="Volunteers" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_5|default:'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_5_obj.alt_text|default:'Volunteers' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mb-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=300&h=200&fit=crop"
-                        alt="Community" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_6|default:'https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_6_obj.alt_text|default:'Community' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mt-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=200&fit=crop"
-                        alt="Nutrition" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_7|default:'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_7_obj.alt_text|default:'Nutrition' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mb-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1524069290683-0457abbd6fa3?w=300&h=200&fit=crop"
-                        alt="School" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_8|default:'https://images.unsplash.com/photo-1524069290683-0457abbd6fa3?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_8_obj.alt_text|default:'School' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <!-- Duplicate for seamless loop -->
                 <div class="flex-shrink-0 w-48 h-32 mt-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=300&h=200&fit=crop"
-                        alt="Children learning" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_1|default:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_1_obj.alt_text|default:'Children learning' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mb-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=300&h=200&fit=crop"
-                        alt="Education" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_2|default:'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_2_obj.alt_text|default:'Education' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mt-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=300&h=200&fit=crop"
-                        alt="Healthcare" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_3|default:'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_3_obj.alt_text|default:'Healthcare' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
                 <div class="flex-shrink-0 w-48 h-32 mb-4 transform hover:scale-105 transition-transform">
-                    <img src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=300&h=200&fit=crop"
-                        alt="Children playing" class="w-full h-full object-cover shadow-lg">
+                    <img src="{{ media.home_impact_4|default:'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=300&h=200&fit=crop' }}"
+                        alt="{{ media.home_impact_4_obj.alt_text|default:'Children playing' }}"
+                        class="w-full h-full object-cover shadow-lg">
                 </div>
             </div>
             <!-- CSS Animation for continuous scroll -->
@@ -189,52 +165,46 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Education -->
+            <!-- School Supplies & Uniforms -->
             <div class="bg-white p-8 card-hover group">
                 <div
                     class="w-16 h-16 bg-stc-red-500 flex items-center justify-center mb-6 group-hover:bg-stc-black transition-colors">
-                    <span class="text-white text-3xl">📚</span>
+                    <span class="text-white text-3xl">🎒</span>
                 </div>
-                <h3 class="text-xl font-bold text-stc-black mb-3 font-display uppercase">Education</h3>
-                <p class="text-gray-600 mb-4">
-                    We ensure children have access to quality education, school supplies, and the support they need to
-                    succeed academically.
-                </p>
-                <a href="{% url 'stories_list' %}?category=education"
+                <h3 class="text-xl font-bold text-stc-black mb-3 font-display uppercase">School Supplies</h3>
+                <p class="text-gray-600 mb-4">Providing books, stationery, uniforms, and bags to ensure every child is
+                    equipped for learning.</p>
+                <a href="{% url 'stories_list' %}"
                     class="text-stc-red-500 font-bold text-sm uppercase tracking-wide hover:underline">
                     Learn More →
                 </a>
             </div>
 
-            <!-- Health -->
+            <!-- Digital Literacy -->
             <div class="bg-white p-8 card-hover group">
                 <div
                     class="w-16 h-16 bg-stc-red-500 flex items-center justify-center mb-6 group-hover:bg-stc-black transition-colors">
-                    <span class="text-white text-3xl">🏥</span>
+                    <span class="text-white text-3xl">💻</span>
                 </div>
-                <h3 class="text-xl font-bold text-stc-black mb-3 font-display uppercase">Healthcare</h3>
-                <p class="text-gray-600 mb-4">
-                    We provide essential healthcare services, vaccinations, and medical support to children in
-                    underserved communities.
-                </p>
-                <a href="{% url 'stories_list' %}?category=health"
+                <h3 class="text-xl font-bold text-stc-black mb-3 font-display uppercase">Digital Literacy</h3>
+                <p class="text-gray-600 mb-4">Teaching computer skills and technology access to prepare children for the
+                    modern world.</p>
+                <a href="{% url 'stories_list' %}"
                     class="text-stc-red-500 font-bold text-sm uppercase tracking-wide hover:underline">
                     Learn More →
                 </a>
             </div>
 
-            <!-- Nutrition -->
+            <!-- Scholarships -->
             <div class="bg-white p-8 card-hover group">
                 <div
                     class="w-16 h-16 bg-stc-red-500 flex items-center justify-center mb-6 group-hover:bg-stc-black transition-colors">
-                    <span class="text-white text-3xl">🍎</span>
+                    <span class="text-white text-3xl">🎓</span>
                 </div>
-                <h3 class="text-xl font-bold text-stc-black mb-3 font-display uppercase">Nutrition</h3>
-                <p class="text-gray-600 mb-4">
-                    We combat hunger by providing nutritious meals and food security programs to children and their
-                    families.
-                </p>
-                <a href="{% url 'stories_list' %}?category=food"
+                <h3 class="text-xl font-bold text-stc-black mb-3 font-display uppercase">Scholarships</h3>
+                <p class="text-gray-600 mb-4">Supporting bright students with scholarships for higher education and
+                    career guidance.</p>
+                <a href="{% url 'stories_list' %}"
                     class="text-stc-red-500 font-bold text-sm uppercase tracking-wide hover:underline">
                     Learn More →
                 </a>
@@ -294,10 +264,8 @@
 
                 <!-- Story Content -->
                 <div class="py-6">
-                    <span class="text-xs text-gray-500 uppercase tracking-wide">{{ story.created_date|date:"M d, Y"
-                        }}</span>
                     <h3
-                        class="text-xl font-bold text-stc-black mt-2 mb-3 font-display group-hover:text-stc-red-500 transition-colors line-clamp-2">
+                        class="text-xl font-bold text-stc-black mb-3 font-display group-hover:text-stc-red-500 transition-colors line-clamp-2">
                         {{ story.title }}
                     </h3>
                     <p class="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -344,22 +312,22 @@
             <!-- Placeholder Story 2 -->
             <article class="group card-hover">
                 <div class="relative h-56 bg-gray-200 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&h=300&fit=crop"
-                        alt="Healthcare story"
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop"
+                        alt="Digital literacy story"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <span
                         class="absolute top-4 left-4 bg-stc-red-500 text-white text-xs font-bold px-3 py-1 uppercase tracking-wide">
-                        Health
+                        Education
                     </span>
                 </div>
                 <div class="py-6">
                     <span class="text-xs text-gray-500 uppercase tracking-wide">Dec 18, 2025</span>
                     <h3
                         class="text-xl font-bold text-stc-black mt-2 mb-3 font-display group-hover:text-stc-red-500 transition-colors">
-                        Health Camps Making a Difference
+                        Digital Literacy for Rural Children
                     </h3>
                     <p class="text-gray-600 text-sm mb-4">
-                        Our recent health camp provided free check-ups to over 200 children in Mehrauli.
+                        Introducing computers and technology to children who have never had access before.
                     </p>
                     <a href="{% url 'stories_list' %}"
                         class="text-stc-red-500 font-bold text-sm uppercase tracking-wide hover:underline">
@@ -371,22 +339,22 @@
             <!-- Placeholder Story 3 -->
             <article class="group card-hover">
                 <div class="relative h-56 bg-gray-200 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=300&fit=crop"
-                        alt="Nutrition story"
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=300&fit=crop"
+                        alt="Scholarship story"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <span
                         class="absolute top-4 left-4 bg-stc-red-500 text-white text-xs font-bold px-3 py-1 uppercase tracking-wide">
-                        Nutrition
+                        Education
                     </span>
                 </div>
                 <div class="py-6">
                     <span class="text-xs text-gray-500 uppercase tracking-wide">Dec 15, 2025</span>
                     <h3
                         class="text-xl font-bold text-stc-black mt-2 mb-3 font-display group-hover:text-stc-red-500 transition-colors">
-                        Fighting Hunger, One Meal at a Time
+                        Scholarship Program Success Stories
                     </h3>
                     <p class="text-gray-600 text-sm mb-4">
-                        Our mid-day meal program now serves nutritious food to children in 15 schools.
+                        How our scholarship program is helping bright students pursue higher education.
                     </p>
                     <a href="{% url 'stories_list' %}"
                         class="text-stc-red-500 font-bold text-sm uppercase tracking-wide hover:underline">
@@ -412,9 +380,7 @@
                 <div class="w-3 h-3 bg-stc-red-500 rotate-45 animate-diamond-pulse"></div>
                 <div class="w-12 h-1 bg-stc-red-500"></div>
             </div>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-                Your generosity helps us save and improve the lives of children every day.
-            </p>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">{{ site.home_give_description }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -466,45 +432,7 @@
     </div>
 </section>
 
-<!-- Connect With Us Section - Social Media -->
-<section class="py-16 bg-white border-t">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-        <span class="inline-block text-stc-red-500 text-xs font-bold uppercase tracking-[0.2em] mb-3">Stay
-            Connected</span>
-        <h2 class="text-3xl md:text-4xl font-black text-stc-black font-display uppercase">Follow Our <span
-                class="text-stc-red-500">Journey</span></h2>
-        <div class="flex items-center justify-center gap-3 mt-6 mb-6">
-            <div class="w-12 h-1 bg-stc-red-500"></div>
-            <div class="w-3 h-3 bg-stc-red-500 rotate-45 animate-diamond-pulse"></div>
-            <div class="w-12 h-1 bg-stc-red-500"></div>
-        </div>
-        <p class="text-gray-600 mb-8">
-            Stay connected and see the impact of your support. Follow us on social media!
-        </p>
-        <div class="flex gap-4 justify-center flex-wrap">
-            <a href="https://www.facebook.com/people/Amaanitvam-Foundation/61583427622759/" target="_blank"
-                class="flex items-center gap-3 bg-stc-black hover:bg-stc-red-500 text-white font-bold py-3 px-6 transition-colors">
-                <span class="text-lg">📘</span>
-                <span class="uppercase text-sm tracking-wide">Facebook</span>
-            </a>
-            <a href="https://www.instagram.com/amaanitvamfoundation" target="_blank"
-                class="flex items-center gap-3 bg-stc-black hover:bg-stc-red-500 text-white font-bold py-3 px-6 transition-colors">
-                <span class="text-lg">📸</span>
-                <span class="uppercase text-sm tracking-wide">Instagram</span>
-            </a>
-            <a href="https://x.com/AmaanitvamOrg" target="_blank"
-                class="flex items-center gap-3 bg-stc-black hover:bg-stc-red-500 text-white font-bold py-3 px-6 transition-colors">
-                <span class="text-lg">𝕏</span>
-                <span class="uppercase text-sm tracking-wide">X / Twitter</span>
-            </a>
-            <a href="https://www.linkedin.com/company/amaanitvam-foundation/" target="_blank"
-                class="flex items-center gap-3 bg-stc-black hover:bg-stc-red-500 text-white font-bold py-3 px-6 transition-colors">
-                <span class="text-lg">💼</span>
-                <span class="uppercase text-sm tracking-wide">LinkedIn</span>
-            </a>
-        </div>
-    </div>
-</section>
+
 
 <!-- Final CTA -->
 <section class="relative py-20 bg-stc-red-500 overflow-hidden">
@@ -515,12 +443,9 @@
     </div>
     <div class="relative max-w-4xl mx-auto px-4 text-center">
         <span class="inline-block text-red-100 text-xs font-bold uppercase tracking-[0.2em] mb-3">Take Action</span>
-        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 font-display uppercase">
-            Children Can't Wait. <span class="underline decoration-4 underline-offset-4">Act Now.</span>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 font-display uppercase">{{ site.home_cta_title }}
         </h2>
-        <p class="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
-            Every minute without action is a minute of suffering for a child. Your donation today can save lives.
-        </p>
+        <p class="text-xl text-red-100 mb-8 max-w-2xl mx-auto">{{ site.home_cta_description }}</p>
         <a href="{% url 'donate' %}"
             class="inline-block bg-white hover:bg-gray-100 text-stc-red-500 font-black py-4 px-12 text-lg transition-all uppercase tracking-wide">
             Donate Now

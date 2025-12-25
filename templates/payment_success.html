@@ -2,9 +2,18 @@
 
 {% block title %}Thank You! - Amaanitvam Foundation{% endblock %}
 
+{% block extra_head %}
+<style>
+    .donate-page,
+    .donate-page * {
+        font-family: 'Poppins', sans-serif !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Success Section -->
-<section class="min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
+<section class="donate-page min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
     <div class="max-w-2xl mx-auto px-4 text-center">
         <div class="bg-white p-10 shadow-lg">
             <!-- Success Icon -->
@@ -30,8 +39,7 @@
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Transaction ID:</span>
-                        <span class="font-mono text-xs text-gray-600">{{ donation.transaction_id|truncatechars:20
-                            }}</span>
+                        <span class="font-mono text-xs text-gray-600">{{ donation.transaction_id }}</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-600">Date:</span>

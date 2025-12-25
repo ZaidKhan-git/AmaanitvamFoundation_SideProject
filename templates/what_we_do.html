@@ -1,22 +1,23 @@
 {% extends 'base.html' %}
 
 {% block title %}What We Do - Amaanitvam Foundation{% endblock %}
-{% block meta_description %}Learn about our programs in education, healthcare, and nutrition that help underprivileged
-children across India.{% endblock %}
+{% block meta_description %}Learn about our education programs that help underprivileged children across India build a
+brighter future.{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
 <section class="relative py-28 bg-stc-black overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Children in classroom" class="w-full h-full object-cover">
+        <img src="{{ media.whatwedo_hero_bg|default:'https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' }}"
+            alt="{{ media.whatwedo_hero_bg_obj.alt_text|default:'Children in classroom' }}"
+            class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-black/60"></div>
     </div>
     <div class="relative max-w-4xl mx-auto px-4 text-center">
         <span
             class="inline-block text-stc-red-500 text-sm font-bold uppercase tracking-[0.3em] mb-4 animate-tag-slide">Our
-            Programs</span>
+            Mission</span>
         <h1
             class="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 font-display uppercase leading-tight animate-hero-rise">
             What We <span class="text-stc-red-500 inline-block animate-warm-glow">Do</span>
@@ -26,8 +27,7 @@ children across India.{% endblock %}
             <div class="w-3 h-3 bg-stc-red-500 rotate-45 animate-heart-pulse"></div>
             <div class="w-12 h-1 bg-stc-red-500 animate-line-grow"></div>
         </div>
-        <p class="text-xl text-gray-300 max-w-xl mx-auto animate-subtle-fade-up">
-            Fighting for children's rights through education, healthcare, and nutrition.
+        <p class="text-xl text-gray-300 max-w-xl mx-auto animate-subtle-fade-up">{{ site.whatwedo_hero_description }}
         </p>
     </div>
 </section>
@@ -35,171 +35,211 @@ children across India.{% endblock %}
 <!-- Mission Statement -->
 <section class="py-12 bg-stc-red-500">
     <div class="max-w-4xl mx-auto px-4 text-center">
-        <p class="text-xl md:text-2xl text-white font-bold">
-            Every child deserves the chance to grow up healthy, educated, and safe.
-        </p>
+        <p class="text-xl md:text-2xl text-white font-bold">{{ site.whatwedo_mission_text }}</p>
     </div>
 </section>
 
-<!-- Programs Section -->
+<!-- Our Projects Section - Full Width -->
+<section class="py-20 bg-stc-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <span class="text-stc-red-500 font-bold text-sm uppercase tracking-wider">Education Initiatives</span>
+            <h2 class="text-4xl md:text-5xl font-black text-stc-black font-display uppercase mt-2">Our Projects</h2>
+            <div class="flex items-center justify-center gap-2 mt-4">
+                <div class="w-16 h-1 bg-stc-red-500"></div>
+                <div class="w-2 h-2 bg-stc-red-500 rotate-45"></div>
+                <div class="w-16 h-1 bg-stc-red-500"></div>
+            </div>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-6">
+                Discover our ongoing education projects making a real difference in children's lives.
+            </p>
+        </div>
+    </div>
+
+    {% if projects %}
+    <!-- Elegant Full Width Projects -->
+    <div class="space-y-0">
+        {% for project in projects %}
+        <article
+            class="{% if forloop.counter|divisibleby:2 %}bg-white{% else %}bg-stc-gray-50{% endif %} border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 py-12 items-center">
+                    <!-- Image Side (2 cols) -->
+                    <div class="lg:col-span-2 {% if forloop.counter|divisibleby:2 %}lg:order-2{% endif %}">
+                        <div class="relative h-64 lg:h-72 overflow-hidden rounded-lg shadow-lg">
+                            {% if project.cover_image %}
+                            <img src="{{ project.cover_image.url }}" alt="{{ project.title }}"
+                                class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                            {% else %}
+                            <div
+                                class="w-full h-full bg-gradient-to-br from-stc-red-500 to-stc-black flex items-center justify-center">
+                                <span class="text-7xl text-white/20">📚</span>
+                            </div>
+                            {% endif %}
+
+                            <!-- Status Badge -->
+                            <span class="absolute top-4 left-4 px-3 py-1 text-xs font-bold uppercase tracking-wide rounded
+                                {% if project.status == 'ongoing' %}bg-green-500 text-white
+                                {% elif project.status == 'completed' %}bg-blue-500 text-white
+                                {% else %}bg-yellow-500 text-black{% endif %}">
+                                {{ project.get_status_display }}
+                            </span>
+
+                            {% if project.video_url %}
+                            <a href="{{ project.video_url }}" target="_blank"
+                                class="absolute bottom-4 right-4 w-12 h-12 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md">
+                                <span class="text-stc-red-500 text-xl ml-0.5">▶</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Content Side (3 cols) -->
+                    <div class="lg:col-span-3 {% if forloop.counter|divisibleby:2 %}lg:order-1{% endif %}">
+                        <h3 class="text-2xl md:text-3xl font-bold text-stc-black mb-3 font-display">
+                            {{ project.title }}
+                        </h3>
+
+                        {% if project.location %}
+                        <p class="text-stc-red-500 font-medium text-sm mb-3 flex items-center gap-1">
+                            <span>📍</span> {{ project.location }}
+                        </p>
+                        {% endif %}
+
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            {{ project.short_description }}
+                        </p>
+
+                        <!-- Compact Stats Row -->
+                        <div class="flex flex-wrap items-center gap-4 text-sm">
+                            {% if project.beneficiaries_count > 0 %}
+                            <span class="bg-stc-red-50 text-stc-red-500 px-3 py-1 rounded-full font-semibold">
+                                {{ project.beneficiaries_count }}+ Children
+                            </span>
+                            {% endif %}
+
+                            {% if project.latest_update %}
+                            <span class="text-gray-500 flex items-center gap-1">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                Updated {{ project.latest_update.date|date:"M d" }}
+                            </span>
+                            {% endif %}
+
+                            {% if project.images.count > 0 %}
+                            <span class="text-gray-500">
+                                📷 {{ project.images.count }} photos
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Mini Gallery (if images exist) -->
+                        {% if project.images.all %}
+                        <div class="flex gap-2 mt-4">
+                            {% for image in project.images.all|slice:":4" %}
+                            <div class="w-14 h-14 flex-shrink-0 overflow-hidden rounded-md">
+                                <img src="{{ image.image.url }}" alt="{{ image.caption }}"
+                                    class="w-full h-full object-cover hover:scale-110 transition-transform">
+                            </div>
+                            {% endfor %}
+                            {% if project.images.count > 4 %}
+                            <div
+                                class="w-14 h-14 flex-shrink-0 bg-stc-gray-200 text-stc-black rounded-md flex items-center justify-center text-sm font-bold">
+                                +{{ project.images.count|add:"-4" }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                        <!-- View Project Link -->
+                        <a href="{% url 'project_detail' project.slug %}"
+                            class="inline-block mt-4 text-stc-red-500 font-semibold text-sm uppercase tracking-wide hover:underline">
+                            View Full Project →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center py-20 bg-white rounded-lg shadow">
+            <span class="text-8xl mb-6 block">📚</span>
+            <h3 class="text-2xl font-bold text-stc-black mb-3">Projects Coming Soon</h3>
+            <p class="text-gray-600 text-lg">We're preparing exciting education projects. Check back soon!</p>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Education Section -->
 <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Education -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-            <div class="bg-stc-red-500 h-80 flex items-center justify-center order-2 lg:order-1">
-                <span class="text-9xl text-white/30">📚</span>
-            </div>
-            <div class="order-1 lg:order-2">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="inline-flex items-center justify-center w-10 h-10 bg-stc-red-500 text-white font-black text-sm">01</span>
-                    <span class="text-stc-red-500 font-bold text-sm uppercase tracking-wider">Program</span>
-                </div>
-                <h2 class="text-4xl font-black text-stc-black font-display uppercase">Education</h2>
-                <div class="flex items-center gap-2 mt-4 mb-6">
-                    <div class="w-16 h-1 bg-stc-red-500"></div>
-                    <div class="w-2 h-2 bg-stc-red-500 rotate-45"></div>
-                </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    We believe education is the foundation for breaking the cycle of poverty. Our education programs
-                    provide children with the tools and support they need to succeed academically and beyond.
-                </p>
-                <ul class="space-y-3 text-gray-600">
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>School supplies, uniforms, and books for underprivileged students</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>After-school tutoring and mentorship programs</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Digital literacy and computer education initiatives</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Scholarships for higher education</span>
-                    </li>
-                </ul>
+        <!-- Header Left Aligned -->
+        <div class="mb-12">
+            <span class="text-stc-red-500 font-bold text-sm uppercase tracking-wider">Our Focus</span>
+            <h2 class="text-4xl md:text-5xl font-black text-stc-black font-display uppercase mt-2">Education</h2>
+            <div class="flex items-center gap-2 mt-4">
+                <div class="w-16 h-1 bg-stc-red-500"></div>
+                <div class="w-2 h-2 bg-stc-red-500 rotate-45"></div>
             </div>
         </div>
 
-        <!-- Healthcare -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <!-- Left: Text Content -->
             <div>
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="inline-flex items-center justify-center w-10 h-10 bg-stc-red-500 text-white font-black text-sm">02</span>
-                    <span class="text-stc-red-500 font-bold text-sm uppercase tracking-wider">Program</span>
-                </div>
-                <h2 class="text-4xl font-black text-stc-black font-display uppercase">Healthcare</h2>
-                <div class="flex items-center gap-2 mt-4 mb-6">
-                    <div class="w-16 h-1 bg-stc-red-500"></div>
-                    <div class="w-2 h-2 bg-stc-red-500 rotate-45"></div>
-                </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    Good health is essential for a child's development. We provide comprehensive healthcare services to
-                    ensure children can grow strong and reach their full potential.
-                </p>
-                <ul class="space-y-3 text-gray-600">
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Regular health check-ups and screenings</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Vaccination and immunization drives</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Mental health awareness and counseling</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Emergency medical assistance</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="bg-stc-black h-80 flex items-center justify-center">
-                <span class="text-9xl text-white/30">🏥</span>
-            </div>
-        </div>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">{{ site.whatwedo_education_intro }}</p>
 
-        <!-- Nutrition -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="bg-stc-red-500 h-80 flex items-center justify-center order-2 lg:order-1">
-                <span class="text-9xl text-white/30">🍎</span>
-            </div>
-            <div class="order-1 lg:order-2">
-                <div class="flex items-center gap-3 mb-3">
-                    <span
-                        class="inline-flex items-center justify-center w-10 h-10 bg-stc-red-500 text-white font-black text-sm">03</span>
-                    <span class="text-stc-red-500 font-bold text-sm uppercase tracking-wider">Program</span>
-                </div>
-                <h2 class="text-4xl font-black text-stc-black font-display uppercase">Nutrition</h2>
-                <div class="flex items-center gap-2 mt-4 mb-6">
-                    <div class="w-16 h-1 bg-stc-red-500"></div>
-                    <div class="w-2 h-2 bg-stc-red-500 rotate-45"></div>
-                </div>
-                <p class="text-gray-600 mb-6 leading-relaxed">
-                    No child should go hungry. Our nutrition programs combat malnutrition and food insecurity, ensuring
-                    children have the nourishment they need to learn and grow.
-                </p>
-                <ul class="space-y-3 text-gray-600">
+                <h3 class="text-xl font-bold text-stc-black mb-4 uppercase">What We Provide</h3>
+                <ul class="space-y-4 text-gray-600">
                     <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Daily mid-day meal programs in schools</span>
+                        <span class="text-stc-red-500 font-bold text-lg">→</span>
+                        <span><strong>School Supplies & Uniforms:</strong> Essential materials including books, bags,
+                            stationery, and uniforms for underprivileged students</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Nutrition awareness for families</span>
+                        <span class="text-stc-red-500 font-bold text-lg">→</span>
+                        <span><strong>Tutoring & Mentorship:</strong> After-school academic support and one-on-one
+                            mentorship programs</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Kitchen garden initiatives</span>
+                        <span class="text-stc-red-500 font-bold text-lg">→</span>
+                        <span><strong>Digital Literacy:</strong> Computer education and technology access
+                            initiatives</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-stc-red-500 font-bold">→</span>
-                        <span>Food security and emergency relief</span>
+                        <span class="text-stc-red-500 font-bold text-lg">→</span>
+                        <span><strong>Scholarships:</strong> Financial support for higher education opportunities</span>
                     </li>
                 </ul>
+            </div>
+
+            <!-- Right: Images -->
+            <div class="space-y-6">
+                <div class="overflow-hidden shadow-lg">
+                    <img src="{{ media.whatwedo_mission_1|default:'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&h=400&fit=crop' }}"
+                        alt="{{ media.whatwedo_mission_1_obj.alt_text|default:'Children learning in classroom' }}"
+                        class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="overflow-hidden shadow-lg">
+                    <img src="{{ media.whatwedo_mission_2|default:'https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=600&h=400&fit=crop' }}"
+                        alt="{{ media.whatwedo_mission_2_obj.alt_text|default:'Students studying together' }}"
+                        class="w-full h-64 object-cover hover:scale-105 transition-transform duration-500">
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Impact Stats -->
-<section class="py-16 bg-stc-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div>
-                <div class="text-4xl font-black text-stc-red-500 font-display">5,000+</div>
-                <p class="text-stc-black font-semibold uppercase text-sm mt-2">Children Reached</p>
-            </div>
-            <div>
-                <div class="text-4xl font-black text-stc-red-500 font-display">15</div>
-                <p class="text-stc-black font-semibold uppercase text-sm mt-2">Schools Supported</p>
-            </div>
-            <div>
-                <div class="text-4xl font-black text-stc-red-500 font-display">25,000+</div>
-                <p class="text-stc-black font-semibold uppercase text-sm mt-2">Meals Provided</p>
-            </div>
-            <div>
-                <div class="text-4xl font-black text-stc-red-500 font-display">8</div>
-                <p class="text-stc-black font-semibold uppercase text-sm mt-2">States Covered</p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- CTA -->
 <section class="py-20 bg-stc-red-500">
     <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-black text-white mb-6 font-display uppercase">Help Us Do More</h2>
-        <p class="text-xl text-red-100 mb-8">
-            Your support enables us to expand our programs and reach more children in need.
-        </p>
+        <h2 class="text-3xl font-black text-white mb-6 font-display uppercase">{{ site.whatwedo_cta_title }}</h2>
+        <p class="text-xl text-red-100 mb-8">{{ site.whatwedo_cta_description }}</p>
         <a href="{% url 'donate' %}"
             class="inline-block bg-white hover:bg-gray-100 text-stc-red-500 font-black py-4 px-12 transition-colors uppercase tracking-wide">
             Donate Now

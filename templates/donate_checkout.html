@@ -2,9 +2,18 @@
 
 {% block title %}Complete Payment - Amaanitvam Foundation{% endblock %}
 
+{% block extra_head %}
+<style>
+    .donate-page,
+    .donate-page * {
+        font-family: 'Poppins', sans-serif !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Checkout Section -->
-<section class="min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
+<section class="donate-page min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
     <div class="max-w-md mx-auto px-4 w-full">
         <div class="bg-white p-8 shadow-lg text-center">
             <!-- Amount Display -->
@@ -73,7 +82,25 @@
             "email": "{{ donor_email }}",
             "contact": "{{ donor_phone }}"
         },
-        "theme": { "color": "#E11B22" }
+        "theme": { "color": "#E11B22" },
+        "config": {
+            "display": {
+                "blocks": {
+                    "banks": {
+                        "name": "Pay using UPI or Card",
+                        "instruments": [
+                            { "method": "upi" },
+                            { "method": "card" },
+                            { "method": "netbanking" }
+                        ]
+                    }
+                },
+                "sequence": ["block.banks"],
+                "preferences": {
+                    "show_default_blocks": true
+                }
+            }
+        }
     };
 
     var rzp = new Razorpay(options);

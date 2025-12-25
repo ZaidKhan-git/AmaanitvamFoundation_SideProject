@@ -19,9 +19,6 @@
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-white font-display leading-tight">
             {{ story.title }}
         </h1>
-        <p class="text-gray-400 mt-4 text-sm uppercase tracking-wide">
-            Published {{ story.created_date|date:"F d, Y" }}
-        </p>
     </div>
 </section>
 
@@ -61,6 +58,32 @@
                 {{ story.body|safe }}
             </div>
         </article>
+
+        <!-- Story Images Gallery (Alternating Layout) -->
+        {% if story.images.all %}
+        <div class="mt-12 space-y-16">
+            {% for image in story.images.all %}
+            <div
+                class="flex flex-col md:flex-row items-center gap-8 {% if forloop.counter|divisibleby:2 %}md:flex-row-reverse{% endif %}">
+                <!-- Image -->
+                <div class="md:w-1/2">
+                    <img src="{{ image.image.url }}" alt="{{ image.caption|default:story.title }}"
+                        class="w-full rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 object-cover">
+                </div>
+                <!-- Caption/Content -->
+                <div class="md:w-1/2 flex items-center">
+                    {% if image.caption %}
+                    <div class="bg-stc-gray-50 p-6 rounded-lg w-full">
+                        <p class="text-gray-700 text-lg leading-relaxed italic">
+                            "{{ image.caption }}"
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <!-- Share Section -->
         <div class="mt-12 pt-8 border-t border-gray-200">

@@ -12,6 +12,9 @@ urlpatterns = [
     path('stories/', views.stories_list, name='stories_list'),
     path('stories/<slug:slug>/', views.story_detail, name='story_detail'),
     
+    # Projects
+    path('project/<slug:slug>/', views.project_detail, name='project_detail'),
+    
     # Donations
     path('donate/', views.donate, name='donate'),
     path('payment/callback/', views.payment_callback, name='payment_callback'),

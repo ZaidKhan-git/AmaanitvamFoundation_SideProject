@@ -5,7 +5,7 @@ from django.conf import settings
 import razorpay
 import json
 
-from .models import StoryPost, Donation
+from .models import StoryPost, Donation, VolunteerFormLink, Project
 
 
 # Initialize Razorpay client
@@ -46,14 +46,55 @@ def what_we_do(request):
     """
     What We Do page - details about programs and initiatives.
     """
-    return render(request, 'what_we_do.html')
+    # Get active projects with their latest updates
+    projects = Project.objects.filter(is_active=True).prefetch_related('images', 'updates')
+    
+    context = {
+        'projects': projects,
+    }
+    return render(request, 'what_we_do.html', context)
+
+
+def project_detail(request, slug):
+    """
+    Project detail page - shows all images and updates for a project.
+    """
+    project = get_object_or_404(Project, slug=slug, is_active=True)
+    
+    context = {
+        'project': project,
+        'images': project.images.all(),
+        'updates': project.updates.all(),
+    }
+    return render(request, 'project_detail.html', context)
 
 
 def ways_to_help(request):
     """
     Ways to Help page - different ways to contribute.
+    Includes volunteer form link functionality.
     """
-    return render(request, 'ways_to_help.html')
+    # Get active volunteer form link
+    volunteer_link = VolunteerFormLink.get_active_link()
+    
+    # Get disclaimer message (from most recent entry or default)
+    if volunteer_link:
+        disclaimer_message = volunteer_link.disclaimer_message
+        volunteer_form_url = volunteer_link.form_url
+        volunteer_active = True
+    else:
+        # Check if there's any entry to get the disclaimer from
+        any_link = VolunteerFormLink.objects.first()
+        disclaimer_message = any_link.disclaimer_message if any_link else "Volunteer recruitment is currently closed. Please check back later or follow us on social media for updates."
+        volunteer_form_url = None
+        volunteer_active = False
+    
+    context = {
+        'volunteer_form_url': volunteer_form_url,
+        'volunteer_active': volunteer_active,
+        'disclaimer_message': disclaimer_message,
+    }
+    return render(request, 'ways_to_help.html', context)
 
 
 def stories_list(request):
@@ -94,6 +135,7 @@ def story_detail(request, slug):
     return render(request, 'story_detail.html', context)
 
 
+@csrf_exempt  # Exempt for ngrok mobile testing - remove in production
 def donate(request):
     """
     Donation page with Razorpay integration.

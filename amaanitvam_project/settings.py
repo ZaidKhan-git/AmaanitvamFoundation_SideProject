@@ -25,7 +25,21 @@ SECRET_KEY = 'django-insecure--e447j-1q5eq3g)^gl@vax-k+x#fnyx%&ab6&e8lty63dccu1k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '.ngrok-free.app']
+ALLOWED_HOSTS = ['*', '.ngrok-free.app', '.ngrok.io']
+
+# CSRF settings for ngrok
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.app',
+    'https://*.ngrok.io',
+    'http://*.ngrok-free.app',
+    'http://*.ngrok.io',
+]
+
+# Cookie settings for cross-origin requests (ngrok)
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'
 
 
 # Application definition
@@ -63,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.site_content',  # Custom site content
+                'core.context_processors.static_media',  # Static media management
             ],
         },
     },
@@ -136,8 +152,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Replace these with your actual Razorpay Test API keys
 # Get keys from: https://dashboard.razorpay.com/app/keys
 
-RAZORPAY_KEY_ID = 'rzp_test_YOUR_KEY_ID'
-RAZORPAY_KEY_SECRET = 'YOUR_KEY_SECRET'
+RAZORPAY_KEY_ID = 'rzp_test_RvnkOYpqF94SQH'
+RAZORPAY_KEY_SECRET = 'bCbZhJomQL3Kb9ADywdn2Gac'  # Add your secret key here
 
 # Currency for donations
 RAZORPAY_CURRENCY = 'INR'

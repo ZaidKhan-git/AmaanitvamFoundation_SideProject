@@ -4,13 +4,29 @@
 {% block meta_description %}Make a difference in a child's life. Your donation helps provide education, healthcare, and
 nutrition to underprivileged children.{% endblock %}
 
+{% block extra_head %}
+<style>
+    .donate-page,
+    .donate-page h1,
+    .donate-page h2,
+    .donate-page h3,
+    .donate-page p,
+    .donate-page label,
+    .donate-page input,
+    .donate-page button {
+        font-family: 'Poppins', sans-serif !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
-<section class="relative py-28 bg-stc-black overflow-hidden">
+<section class="donate-page relative py-28 bg-stc-black overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            alt="Children smiling with hope" class="w-full h-full object-cover">
+        <img src="{{ media.donate_hero_bg|default:'https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' }}"
+            alt="{{ media.donate_hero_bg_obj.alt_text|default:'Children smiling with hope' }}"
+            class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/70 to-black/60"></div>
     </div>
     <div class="relative max-w-4xl mx-auto px-4 text-center">
@@ -26,9 +42,7 @@ nutrition to underprivileged children.{% endblock %}
             <div class="w-3 h-3 bg-stc-red-500 animate-heart-pulse"></div>
             <div class="w-12 h-1 bg-stc-red-500 animate-line-grow"></div>
         </div>
-        <p class="text-xl text-gray-300 max-w-xl mx-auto animate-subtle-fade-up">
-            Your donation directly supports children in need across India.
-        </p>
+        <p class="text-xl text-gray-300 max-w-xl mx-auto animate-subtle-fade-up">{{ site.donate_hero_description }}</p>
     </div>
 </section>
 
@@ -36,8 +50,7 @@ nutrition to underprivileged children.{% endblock %}
 <section class="bg-stc-red-500 py-4">
     <div class="max-w-7xl mx-auto px-4 text-center">
         <p class="text-white font-semibold">
-            <span class="font-black">URGENT:</span> Children need your help today. Your donation can provide food,
-            education, and medical care.
+            <span class="font-black">URGENT:</span> {{ site.donate_impact_text }}
         </p>
     </div>
 </section>
