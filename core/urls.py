@@ -20,4 +20,9 @@ urlpatterns = [
     path('payment/callback/', views.payment_callback, name='payment_callback'),
     path('payment/success/', views.payment_success, name='payment_success'),
     path('payment/failed/', views.payment_failed, name='payment_failed'),
+    
+    # Legal Pages (Razorpay Compliance)
+    path('privacy-policy/', views.privacy_policy, name='privacy'),
+    path('terms-conditions/', views.terms_conditions, name='terms'),
+    path('refund-policy/', views.refund_policy, name='refund'),
 ]

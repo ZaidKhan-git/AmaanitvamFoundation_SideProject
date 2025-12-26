@@ -286,31 +286,36 @@ class StaticMediaAdmin(admin.ModelAdmin):
     
     def media_preview(self, obj):
         """Show small preview thumbnail in list view."""
-        if obj.media_type == 'image' and obj.image:
-            return format_html(
-                '<img src="{}" style="max-width: 80px; max-height: 50px; object-fit: cover; border-radius: 4px;"/>',
-                obj.image.url
-            )
-        elif obj.media_type == 'video' and obj.video:
-            return format_html(
-                '<span style="color: #666; font-size: 11px;">🎬 Video uploaded</span>'
-            )
-        return format_html('<span style="color: #999;">No media</span>')
+        from django.utils.safestring import mark_safe
+        try:
+            if obj.media_type == 'image' and obj.image and obj.image.name:
+                return format_html(
+                    '<img src="{}" style="max-width: 80px; max-height: 50px; object-fit: cover; border-radius: 4px;"/>',
+                    obj.image.url
+                )
+            elif obj.media_type == 'video' and obj.video and obj.video.name:
+                return mark_safe('<span style="color: #666; font-size: 11px;">🎬 Video uploaded</span>')
+        except (ValueError, FileNotFoundError):
+            pass
+        return mark_safe('<span style="color: #999;">No media</span>')
     media_preview.short_description = 'Preview'
     
     def media_preview_large(self, obj):
         """Show larger preview in detail view."""
         if not obj or not obj.pk:
             return "Save first to see preview"
-        if obj.media_type == 'image' and obj.image:
-            return format_html(
-                '<img src="{}" style="max-width: 400px; max-height: 300px; object-fit: contain; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>',
-                obj.image.url
-            )
-        elif obj.media_type == 'video' and obj.video:
-            return format_html(
-                '<video controls style="max-width: 400px; max-height: 300px; border-radius: 8px;"><source src="{}" type="video/mp4">Your browser does not support video.</video>',
-                obj.video.url
-            )
+        try:
+            if obj.media_type == 'image' and obj.image and obj.image.name:
+                return format_html(
+                    '<img src="{}" style="max-width: 400px; max-height: 300px; object-fit: contain; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>',
+                    obj.image.url
+                )
+            elif obj.media_type == 'video' and obj.video and obj.video.name:
+                return format_html(
+                    '<video controls style="max-width: 400px; max-height: 300px; border-radius: 8px;"><source src="{}" type="video/mp4">Your browser does not support video.</video>',
+                    obj.video.url
+                )
+        except (ValueError, FileNotFoundError):
+            pass
         return "No media uploaded yet"
     media_preview_large.short_description = 'Current Media'

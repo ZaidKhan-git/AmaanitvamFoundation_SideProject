@@ -529,6 +529,19 @@ class StaticMedia(models.Model):
         return "New Static Media"
     
     def save(self, *args, **kwargs):
+        # Delete old files when updating with new ones
+        if self.pk:
+            try:
+                old_instance = StaticMedia.objects.get(pk=self.pk)
+                # Check if image is being replaced
+                if old_instance.image and self.image and old_instance.image != self.image:
+                    old_instance.image.delete(save=False)
+                # Check if video is being replaced
+                if old_instance.video and self.video and old_instance.video != self.video:
+                    old_instance.video.delete(save=False)
+            except StaticMedia.DoesNotExist:
+                pass
+        
         # Auto-fill key from location if not set
         if self.location and not self.key:
             self.key = self.location

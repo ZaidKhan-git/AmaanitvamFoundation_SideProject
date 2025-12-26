@@ -33,6 +33,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.ngrok.io',
     'http://*.ngrok-free.app',
     'http://*.ngrok.io',
+    'https://*.ngrok-free.dev',
+    'http://*.ngrok-free.dev',
 ]
 
 # Cookie settings for cross-origin requests (ngrok)
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,6 +83,7 @@ TEMPLATES = [
                 'core.context_processors.site_content',  # Custom site content
                 'core.context_processors.static_media',  # Static media management
             ],
+            
         },
     },
 ]
@@ -134,6 +138,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collectstatic in production
 
 # Media files (User uploads)
 MEDIA_URL = 'media/'

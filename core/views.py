@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import razorpay
@@ -147,6 +147,13 @@ def donate(request):
         donor_phone = request.POST.get('donor_phone')
         amount = request.POST.get('amount')
         
+        # Input validation: reject zero or negative amounts
+        try:
+            if int(float(amount)) < 1:
+                return HttpResponse("Invalid Amount", status=400)
+        except (ValueError, TypeError):
+            return HttpResponse("Invalid Amount", status=400)
+        
         try:
             amount_decimal = float(amount)
             amount_paise = int(amount_decimal * 100)
@@ -266,3 +273,24 @@ def payment_failed(request):
     Page shown when payment fails.
     """
     return render(request, 'payment_failed.html')
+
+
+def privacy_policy(request):
+    """
+    Privacy Policy page - required for Razorpay compliance.
+    """
+    return render(request, 'privacy.html')
+
+
+def terms_conditions(request):
+    """
+    Terms & Conditions page - required for Razorpay compliance.
+    """
+    return render(request, 'terms.html')
+
+
+def refund_policy(request):
+    """
+    Refund Policy page - required for Razorpay compliance.
+    """
+    return render(request, 'refund.html')
