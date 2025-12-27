@@ -2,90 +2,315 @@
 
 {% block title %}Thank You! - Amaanitvam Foundation{% endblock %}
 
-{% block extra_head %}
-<style>
-    .donate-page,
-    .donate-page * {
-        font-family: 'Poppins', sans-serif !important;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
+<!-- Confetti Container -->
+<div id="confetti-container"
+    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
+
 <!-- Success Section -->
-<section class="donate-page min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
-    <div class="max-w-2xl mx-auto px-4 text-center">
-        <div class="bg-white p-10 shadow-lg">
-            <!-- Success Icon -->
-            <div class="w-24 h-24 bg-green-500 flex items-center justify-center mx-auto mb-6">
-                <span class="text-white text-5xl">✓</span>
+<div
+    class="min-h-screen bg-gradient-to-br from-stc-gray-50 via-white to-red-50 flex items-center justify-center py-16 px-4 relative overflow-hidden">
+
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-10 w-32 h-32 bg-red-200 rounded-full opacity-20 animate-float blur-2xl"></div>
+        <div
+            class="absolute bottom-20 right-10 w-40 h-40 bg-yellow-200 rounded-full opacity-20 animate-float-reverse blur-3xl">
+        </div>
+        <div
+            class="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-200 rounded-full opacity-20 animate-float-slow blur-2xl">
+        </div>
+    </div>
+
+    <div class="max-w-2xl w-full relative z-10">
+        <!-- Main Card -->
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all">
+
+            <!-- Success Icon with Animation -->
+            <div class="bg-gradient-to-r from-green-400 to-emerald-500 p-8 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-white opacity-10 animate-pulse-glow"></div>
+
+                <!-- Animated Checkmark -->
+                <div
+                    class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-4 relative z-10 animate-scale-in shadow-xl">
+                    <svg class="w-16 h-16 text-green-500 animate-draw-check" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-2 font-display animate-bounce-in">
+                    You're Amazing! 🎉
+                </h1>
+                <p class="text-white text-lg opacity-90 animate-fade-in-up">
+                    Your donation was successful
+                </p>
             </div>
 
-            <h1 class="text-3xl md:text-4xl font-black text-stc-black mb-4 font-display uppercase">
-                Thank You!
-            </h1>
+            <!-- Content -->
+            <div class="p-8 md:p-12">
 
-            <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto">
-                Your generosity helps save and protect children's lives. You are making a real difference.
-            </p>
+                <!-- Impact Message -->
+                <div class="text-center mb-8 animate-slide-in-up">
+                    <p class="text-2xl text-gray-700 mb-4 font-medium">
+                        You just made a <span class="text-stc-red-500 font-bold">real difference</span> ✨
+                    </p>
+                    <p class="text-gray-600 max-w-lg mx-auto">
+                        Your generosity helps provide education, nutrition, and hope to children in need. Every rupee
+                        counts!
+                    </p>
+                </div>
 
-            {% if donation %}
-            <div class="bg-stc-gray-50 p-6 mb-8 text-left max-w-sm mx-auto border-l-4 border-stc-red-500">
-                <h2 class="font-black text-stc-black mb-4 uppercase text-sm tracking-wide">Donation Receipt</h2>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Amount:</span>
-                        <span class="font-bold text-stc-black">₹{{ donation.amount }}</span>
+                <!-- Donation Details Card -->
+                {% if donation %}
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 mb-8 border-2 border-gray-200 animate-slide-in-up"
+                    style="animation-delay: 0.2s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="font-bold text-gray-800 text-lg flex items-center gap-2">
+                            <span class="text-2xl">🧾</span>
+                            Donation Receipt
+                        </h2>
+                        <span
+                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">VERIFIED</span>
                     </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Transaction ID:</span>
-                        <span class="font-mono text-xs text-gray-600">{{ donation.transaction_id }}</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Date:</span>
-                        <span class="text-stc-black">{{ donation.created_at|date:"M d, Y" }}</span>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-white rounded-xl">
+                            <span class="text-gray-600 font-medium">Amount</span>
+                            <span class="font-black text-2xl text-stc-red-500">₹{{ donation.amount }}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white rounded-xl">
+                            <span class="text-gray-600 font-medium">Transaction ID</span>
+                            <span class="font-mono text-xs text-gray-700 bg-gray-100 px-2 py-1 rounded">{{
+                                donation.payment_id|truncatechars:20 }}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white rounded-xl">
+                            <span class="text-gray-600 font-medium">Date</span>
+                            <span class="text-gray-700 font-semibold">{{ donation.date|date:"M d, Y" }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {% endif %}
+                {% endif %}
 
-            <p class="text-sm text-gray-500 mb-6">
-                📧 A confirmation email with your 80G tax receipt will be sent shortly.
-            </p>
+                <!-- Email Notification -->
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mb-8 flex items-start gap-3 animate-slide-in-up"
+                    style="animation-delay: 0.3s;">
+                    <span class="text-2xl">📧</span>
+                    <div>
+                        <p class="text-blue-900 font-semibold mb-1">Tax Receipt on the way!</p>
+                        <p class="text-blue-700 text-sm">A confirmation email with your 80G tax exemption certificate
+                            will arrive shortly.</p>
+                    </div>
+                </div>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{% url 'home' %}"
-                    class="bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-colors uppercase text-sm tracking-wide">
-                    Return Home
-                </a>
-                <a href="{% url 'stories_list' %}"
-                    class="bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-colors uppercase text-sm tracking-wide">
-                    See Our Impact
-                </a>
-            </div>
-
-            <!-- Social Share -->
-            <div class="mt-10 pt-8 border-t border-gray-200">
-                <p class="text-sm text-gray-500 uppercase tracking-wide mb-4">Share & inspire others</p>
-                <div class="flex gap-3 justify-center">
-                    <a href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20Amaanitvam%20Foundation%20to%20help%20children%20in%20need.%20Join%20me!"
-                        target="_blank"
-                        class="w-10 h-10 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors text-sm font-bold">
-                        X
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 animate-slide-in-up"
+                    style="animation-delay: 0.4s;">
+                    <a href="{% url 'home' %}"
+                        class="bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 hover:shadow-xl text-center flex items-center justify-center gap-2 group">
+                        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                        Return Home
                     </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php" target="_blank"
-                        class="w-10 h-10 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors text-sm font-bold">
-                        FB
-                    </a>
-                    <a href="https://wa.me/?text=I%20just%20donated%20to%20Amaanitvam%20Foundation.%20You%20can%20too!"
-                        target="_blank"
-                        class="w-10 h-10 bg-stc-black hover:bg-stc-red-500 text-white flex items-center justify-center transition-colors text-sm font-bold">
-                        WA
+                    <a href="{% url 'stories_list' %}"
+                        class="bg-gradient-to-r from-stc-red-500 to-stc-red-600 hover:from-stc-red-600 hover:to-stc-red-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 hover:shadow-xl text-center flex items-center justify-center gap-2 group">
+                        See Our Impact
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
                     </a>
                 </div>
+
+                <!-- Social Share -->
+                <div class="text-center pt-8 border-t-2 border-gray-100 animate-slide-in-up"
+                    style="animation-delay: 0.5s;">
+                    <p class="text-gray-500 font-semibold mb-4 flex items-center justify-center gap-2">
+                        <span class="text-xl">💚</span>
+                        Share the Love & Inspire Others
+                    </p>
+                    <div class="flex gap-3 justify-center">
+                        <a href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20%40AmaanitvamOrg%20to%20help%20children%20in%20need.%20Join%20me%20in%20making%20a%20difference!"
+                            target="_blank"
+                            class="w-12 h-12 bg-black hover:bg-stc-red-500 rounded-xl text-white flex items-center justify-center transition-all transform hover:scale-110 hover:rotate-6 shadow-lg">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://amaanitvamfoundation.org"
+                            target="_blank"
+                            class="w-12 h-12 bg-blue-600 hover:bg-stc-red-500 rounded-xl text-white flex items-center justify-center transition-all transform hover:scale-110 hover:rotate-6 shadow-lg">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/?text=I%20just%20donated%20to%20Amaanitvam%20Foundation.%20You%20can%20make%20a%20difference%20too!%20https://amaanitvamfoundation.org"
+                            target="_blank"
+                            class="w-12 h-12 bg-green-500 hover:bg-stc-red-500 rounded-xl text-white flex items-center justify-center transition-all transform hover:scale-110 hover:rotate-6 shadow-lg">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Fun Fact -->
+        <div class="mt-8 text-center animate-fade-in" style="animation-delay: 0.6s;">
+            <div class="inline-block bg-white rounded-2xl shadow-lg px-6 py-4">
+                <p class="text-gray-600 text-sm">
+                    <span class="font-bold text-stc-red-500">Fun Fact:</span> You're the <span
+                        class="font-black text-2xl text-gray-800 mx-1">{{ donation.id|default:"1" }}th</span> hero this
+                    month! 🦸‍♀️
+                </p>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<style>
+    @keyframes scale-in {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes bounce-in {
+        0% {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+
+        60% {
+            transform: translateY(10px);
+        }
+
+        80% {
+            transform: translateY(-5px);
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes draw-check {
+        0% {
+            stroke-dasharray: 0, 100;
+        }
+
+        100% {
+            stroke-dasharray: 100, 100;
+        }
+    }
+
+    @keyframes slide-in-up {
+        0% {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .animate-scale-in {
+        animation: scale-in 0.5s ease-out;
+    }
+
+    .animate-bounce-in {
+        animation: bounce-in 0.8s ease-out;
+    }
+
+    .animate-draw-check {
+        stroke-dasharray: 100;
+        animation: draw-check 0.6s ease-out 0.3s forwards;
+    }
+
+    .animate-slide-in-up {
+        animation: slide-in-up 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+<!-- Confetti Animation Script -->
+<script>
+    // Confetti Animation
+    function createConfetti() {
+        const container = document.getElementById('confetti-container');
+        const colors = ['#E36678', '#FFD700', '#00CED1', '#FF69B4', '#7FFF00', '#FF6347'];
+
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'absolute';
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = confetti.style.width;
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = -10 + 'px';
+            confetti.style.opacity = Math.random() + 0.5;
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+
+            container.appendChild(confetti);
+
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 2;
+
+            confetti.animate([
+                { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                { transform: `translateY(100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            });
+
+            setTimeout(() => confetti.remove(), (duration + delay) * 1000);
+        }
+    }
+
+    // Fire confetti on page load
+    window.addEventListener('load', () => {
+        setTimeout(createConfetti, 300);
+        setTimeout(createConfetti, 1000);
+    });
+</script>
 {% endblock %}

@@ -294,3 +294,100 @@ def refund_policy(request):
     Refund Policy page - required for Razorpay compliance.
     """
     return render(request, 'refund.html')
+
+
+@csrf_exempt
+def verify_payment(request):
+    """
+    Secure server-side signature verification with amount validation.
+    """
+    if request.method == "POST":
+        data = json.loads(request.body)
+        
+        try:
+            # Step 1: Verify signature (ensures data wasn't tampered in transit)
+            razorpay_client.utility.verify_payment_signature({
+                'razorpay_order_id': data['razorpay_order_id'],
+                'razorpay_payment_id': data['razorpay_payment_id'],
+                'razorpay_signature': data['razorpay_signature']
+            })
+            
+            # Step 2: Fetch payment details from Razorpay to verify amount
+            payment = razorpay_client.payment.fetch(data['razorpay_payment_id'])
+            amount_paid_paise = payment['amount']  # Amount in paise from Razorpay
+            
+            # Step 3: Get our stored order and verify amount matches
+            donation = Donation.objects.get(order_id=data['razorpay_order_id'])
+            expected_amount_paise = int(float(donation.amount)) * 100
+            
+            if amount_paid_paise != expected_amount_paise:
+                # Amount mismatch - potential tampering attempt!
+                return JsonResponse({
+                    'status': 'failure', 
+                    'error': 'Amount mismatch. Payment rejected for security.'
+                }, status=400)
+            
+            # Step 4: All checks passed - Update Database
+            donation.payment_id = data['razorpay_payment_id']
+            donation.paid = True
+            donation.save()
+            
+            return JsonResponse({'status': 'success'})
+            
+        except razorpay.errors.SignatureVerificationError:
+            return JsonResponse({'status': 'failure', 'error': 'Signature verification failed'}, status=400)
+        except Donation.DoesNotExist:
+            return JsonResponse({'status': 'failure', 'error': 'Order not found'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'failure', 'error': str(e)}, status=500)
+
+
+
+
+def donate_page(request):
+    """
+    Donation page with custom amount selection.
+    GET: Show donation form
+    POST: Create Razorpay Order with selected amount
+    """
+    if request.method == 'POST':
+        # Get amount from form
+        try:
+            amount = int(request.POST.get('amount', 0))
+            if amount < 10:
+                return HttpResponse("Minimum donation is ₹10", status=400)
+        except (ValueError, TypeError):
+            return HttpResponse("Invalid amount", status=400)
+        
+        # Create Razorpay Order
+        action = razorpay_client.order.create({
+            "amount": amount * 100,  # Convert to paise
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+        
+        order_id = action['id']
+        
+        # Create DB entry (Paid = False)
+        Donation.objects.create(
+            name="Donor",
+            amount=amount,
+            order_id=order_id
+        )
+        
+        context = {
+            'order_id': order_id,
+            'razorpay_key_id': settings.RAZORPAY_KEY_ID,
+            'amount': amount,
+            'amount_paise': amount * 100,
+            'show_checkout': True,
+        }
+        return render(request, 'donation.html', context)
+    
+    # GET request - show donation form
+    context = {
+        'razorpay_key_id': settings.RAZORPAY_KEY_ID,
+        'show_checkout': False,
+    }
+    return render(request, 'donation.html', context)
+

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold text-center mb-4">Donate ₹{{ amount_display }}</h2>
+            <p class="text-gray-600 text-center mb-8">Support our cause with a fixed contribution.</p>
+
+            <div class="flex justify-center">
+                <button id="rzp-button1"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 w-full">
+                    Pay Now
+                </button>
+            </div>
+
+            <!-- Razorpay Checkout Script -->
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            <script>
+                var options = {
+                    "key": "{{ razorpay_key_id }}", // Enter the Key ID generated from the Dashboard
+                    "amount": "{{ amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "{{ currency }}",
+                    "name": "NGO Donation",
+                    "description": "Donation for Cause",
+                    "image": "https://example.com/your_logo", // You can customize this
+                    "order_id": "{{ order_id }}", // This is the order_id created in the backend
+                    "callback_url": "{% url 'payment_callback' %}", // Your success URL
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                document.getElementById('rzp-button1').onclick = function (e) {
+                    rzp1.open();
+                    e.preventDefault();
+                }
+            </script>
+        </div>
+    </div>
+</div>
+{% endblock %}

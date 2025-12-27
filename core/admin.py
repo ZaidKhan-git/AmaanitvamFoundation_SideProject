@@ -54,44 +54,19 @@ class DonationAdmin(admin.ModelAdmin):
     """Admin configuration for Donations."""
     
     list_display = [
-        'donor_name',
-        'donor_email',
-        'amount_display',
-        'status',
-        'created_at',
+        'name',
+        'amount',
+        'paid',
+        'date',
     ]
-    list_filter = ['status', 'created_at']
-    search_fields = ['donor_name', 'donor_email', 'donor_phone', 'transaction_id']
+    list_filter = ['paid', 'date']
+    search_fields = ['name', 'payment_id', 'order_id']
     readonly_fields = [
-        'transaction_id',
-        'razorpay_order_id',
-        'razorpay_signature',
-        'created_at',
-        'updated_at',
+        'payment_id',
+        'order_id',
+        'date',
     ]
-    
-    fieldsets = (
-        ('Donor Information', {
-            'fields': ('donor_name', 'donor_email', 'donor_phone')
-        }),
-        ('Payment Details', {
-            'fields': ('amount', 'status')
-        }),
-        ('Razorpay Details (Read-only)', {
-            'fields': ('transaction_id', 'razorpay_order_id', 'razorpay_signature'),
-            'classes': ('collapse',)
-        }),
-        ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
-    )
 
-    def amount_display(self, obj):
-        """Display amount with currency symbol."""
-        return f"₹{obj.amount}"
-    amount_display.short_description = 'Amount'
-    amount_display.admin_order_field = 'amount'
 
 
 @admin.register(VolunteerFormLink)

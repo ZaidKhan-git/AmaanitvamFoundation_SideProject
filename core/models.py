@@ -128,66 +128,20 @@ class Donation(models.Model):
     """
     Model for tracking all incoming donations via Razorpay.
     """
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('success', 'Success'),
-        ('failed', 'Failed'),
-    ]
-
-    # Razorpay transaction details
-    transaction_id = models.CharField(
-        max_length=100,
-        unique=True,
-        blank=True,
-        null=True,
-        help_text="Razorpay Payment ID"
-    )
-    razorpay_order_id = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        help_text="Razorpay Order ID"
-    )
-    razorpay_signature = models.CharField(
-        max_length=200,
-        blank=True,
-        null=True,
-        help_text="Razorpay Signature for verification"
-    )
-
-    # Donor information
-    donor_name = models.CharField(max_length=100)
-    donor_email = models.EmailField()
-    donor_phone = models.CharField(max_length=15)
-    
-    # Donation details
-    amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        help_text="Amount in INR"
-    )
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='pending'
-    )
-    
-    # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100)
+    amount = models.CharField(max_length=100, help_text="Amount in INR")
+    payment_id = models.CharField(max_length=100) # Razorpay Payment ID
+    order_id = models.CharField(max_length=100, unique=True) # Razorpay Order ID
+    paid = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-date']
         verbose_name = "Donation"
         verbose_name_plural = "Donations"
 
     def __str__(self):
-        return f"{self.donor_name} - ₹{self.amount} ({self.status})"
-
-    @property
-    def amount_in_paise(self):
-        """Convert amount to paise for Razorpay."""
-        return int(self.amount * 100)
+        return f"{self.name} - ₹{self.amount} ({'Paid' if self.paid else 'Pending'})"
 
 
 class VolunteerFormLink(models.Model):

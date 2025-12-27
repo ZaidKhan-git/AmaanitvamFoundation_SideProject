@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Donate - Amaanitvam Foundation{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative bg-stc-black h-[35vh] min-h-[300px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0 opacity-40">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+            alt="Children smiling" class="w-full h-full object-cover">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-stc-black via-transparent to-transparent z-10"></div>
+
+    <div class="relative z-20 text-center px-4 max-w-4xl mx-auto">
+        <span
+            class="inline-block py-1 px-3 border border-red-500/50 rounded-full bg-red-500/10 text-red-400 text-xs font-bold tracking-widest uppercase mb-4 animate-fade-in-up">
+            Every Rupee Counts
+        </span>
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-4 animate-fade-in-up">
+            Make a <span class="text-stc-red-500">Difference</span> Today
+        </h1>
+    </div>
+</div>
+
+<!-- Donation Section -->
+<div class="bg-gray-50 py-12 -mt-16 relative z-30">
+    <div class="max-w-lg mx-auto px-4">
+
+        {% if not show_checkout %}
+        <!-- STEP 1: Amount Selection Form -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-gradient-to-r from-stc-red-500 to-stc-red-600 p-6 text-center text-white">
+                <h2 class="text-2xl font-bold font-display">Choose Your Impact</h2>
+                <p class="text-stc-red-100 text-sm mt-1">Select or enter your donation amount</p>
+            </div>
+
+            <form method="POST" class="p-8" id="donation-form">
+                {% csrf_token %}
+
+                <!-- Preset Amount Buttons -->
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                    <button type="button" onclick="setAmount(100)"
+                        class="amount-btn py-4 px-3 border-2 border-gray-200 rounded-xl text-center font-bold text-gray-700 hover:border-stc-red-500 hover:bg-stc-red-50 transition-all focus:outline-none focus:border-stc-red-500">
+                        <span class="block text-2xl">₹100</span>
+                        <span class="text-xs text-gray-400 font-normal">2 Meals</span>
+                    </button>
+                    <button type="button" onclick="setAmount(500)"
+                        class="amount-btn py-4 px-3 border-2 border-gray-200 rounded-xl text-center font-bold text-gray-700 hover:border-stc-red-500 hover:bg-stc-red-50 transition-all focus:outline-none focus:border-stc-red-500">
+                        <span class="block text-2xl">₹500</span>
+                        <span class="text-xs text-gray-400 font-normal">School Kit</span>
+                    </button>
+                    <button type="button" onclick="setAmount(1000)"
+                        class="amount-btn py-4 px-3 border-2 border-gray-200 rounded-xl text-center font-bold text-gray-700 hover:border-stc-red-500 hover:bg-stc-red-50 transition-all focus:outline-none focus:border-stc-red-500">
+                        <span class="block text-2xl">₹1000</span>
+                        <span class="text-xs text-gray-400 font-normal">Month Support</span>
+                    </button>
+                </div>
+
+                <!-- Custom Amount Input -->
+                <div class="mb-6">
+                    <label class="block text-gray-500 text-sm font-bold mb-2 uppercase tracking-wide">Or Enter Custom
+                        Amount</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-bold text-gray-400">₹</span>
+                        <input type="number" name="amount" id="amount-input" min="10"
+                            class="w-full pl-12 pr-4 py-4 text-3xl font-bold text-center border-2 border-gray-200 rounded-xl focus:border-stc-red-500 focus:outline-none transition-colors"
+                            placeholder="Enter amount" required>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2 text-center">Minimum ₹10</p>
+                </div>
+
+                <!-- Impact Preview -->
+                <div id="impact-preview"
+                    class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-6 border border-blue-100 hidden">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl">✨</div>
+                        <p class="text-sm text-gray-700"><strong>Your ₹<span id="preview-amount">0</span></strong> can
+                            provide <span id="impact-text">amazing support</span>!</p>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="proceed-btn" disabled
+                    class="w-full bg-gray-300 text-gray-500 text-lg font-bold py-4 px-6 rounded-xl cursor-not-allowed transition-all duration-300">
+                    Select an Amount to Continue
+                </button>
+            </form>
+        </div>
+
+        <script>
+            const amountInput = document.getElementById('amount-input');
+            const proceedBtn = document.getElementById('proceed-btn');
+            const impactPreview = document.getElementById('impact-preview');
+            const previewAmount = document.getElementById('preview-amount');
+            const impactText = document.getElementById('impact-text');
+            const amountBtns = document.querySelectorAll('.amount-btn');
+
+            function setAmount(value) {
+                amountInput.value = value;
+                updateUI();
+                // Highlight selected button
+                amountBtns.forEach(btn => btn.classList.remove('border-stc-red-500', 'bg-stc-red-50'));
+                event.target.closest('.amount-btn').classList.add('border-stc-red-500', 'bg-stc-red-50');
+            }
+
+            function getImpactText(amount) {
+                if (amount >= 5000) return "a month of education for a child";
+                if (amount >= 2000) return "textbooks and uniforms";
+                if (amount >= 1000) return "a week of nutritious meals for 5 children";
+                if (amount >= 500) return "a complete school kit";
+                if (amount >= 100) return "2 nutritious meals";
+                if (amount >= 10) return "hope and support";
+                return "";
+            }
+
+            function updateUI() {
+                const amount = parseInt(amountInput.value) || 0;
+
+                if (amount >= 10) {
+                    proceedBtn.disabled = false;
+                    proceedBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                    proceedBtn.classList.add('bg-stc-red-500', 'hover:bg-stc-red-600', 'text-white', 'cursor-pointer', 'shadow-lg', 'hover:shadow-xl', 'hover:-translate-y-1', 'transform');
+                    proceedBtn.innerHTML = `Donate ₹${amount.toLocaleString('en-IN')} <span class="ml-2">→</span>`;
+
+                    // Show impact
+                    impactPreview.classList.remove('hidden');
+                    previewAmount.textContent = amount.toLocaleString('en-IN');
+                    impactText.textContent = getImpactText(amount);
+                } else {
+                    proceedBtn.disabled = true;
+                    proceedBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                    proceedBtn.classList.remove('bg-stc-red-500', 'hover:bg-stc-red-600', 'text-white', 'cursor-pointer', 'shadow-lg', 'hover:shadow-xl', 'hover:-translate-y-1', 'transform');
+                    proceedBtn.innerHTML = 'Select an Amount to Continue';
+                    impactPreview.classList.add('hidden');
+                }
+            }
+
+            amountInput.addEventListener('input', function () {
+                // Clear preset button highlights when typing custom amount
+                amountBtns.forEach(btn => btn.classList.remove('border-stc-red-500', 'bg-stc-red-50'));
+                updateUI();
+            });
+        </script>
+
+        {% else %}
+        <!-- STEP 2: Payment Checkout -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="bg-stc-red-500 p-6 text-center text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-20 h-20 bg-white opacity-10 rounded-full blur-xl">
+                </div>
+                <h2 class="text-2xl font-bold font-display relative z-10">Complete Your Donation</h2>
+                <div class="mt-2 text-stc-red-100 text-sm relative z-10 flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                        </path>
+                    </svg>
+                    256-bit SSL Encrypted
+                </div>
+            </div>
+
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <p class="text-gray-500 text-sm font-bold uppercase tracking-wide mb-2">Your Donation</p>
+                    <div class="text-5xl font-black text-gray-800 font-display flex justify-center items-start">
+                        <span class="text-2xl mt-1 mr-1 text-gray-400">₹</span>
+                        {{ amount|floatformat:0 }}
+                    </div>
+                </div>
+
+                <button id="rzp-button1"
+                    class="w-full bg-stc-black hover:bg-gray-800 text-white text-lg font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 flex items-center justify-center gap-2 group">
+                    <span>Pay Now</span>
+                    <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </button>
+
+                <a href="{% url 'donate' %}"
+                    class="block text-center text-sm text-gray-500 hover:text-stc-red-500 mt-4 transition-colors">
+                    ← Change Amount
+                </a>
+
+                <p class="text-center text-xs text-gray-400 mt-6">
+                    Powered by Razorpay. 100% Secure Payment.
+                </p>
+            </div>
+        </div>
+
+        <!-- Razorpay Integration -->
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            var options = {
+                "key": "{{ razorpay_key_id }}",
+                "amount": "{{ amount_paise }}",
+                "currency": "INR",
+                "name": "Amaanitvam Foundation",
+                "description": "Donation of ₹{{ amount }}",
+                "image": "{% static 'FaviconLatest.png' %}",
+                "order_id": "{{ order_id }}",
+                "handler": function (response) {
+                    const btn = document.getElementById('rzp-button1');
+                    btn.innerHTML = 'Verifying...';
+                    btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                    fetch("/payment/verify/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        body: JSON.stringify({
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_signature: response.razorpay_signature
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                window.location.href = "{% url 'payment_success' %}";
+                            } else {
+                                alert("Verification Failed: " + data.error);
+                                btn.innerHTML = 'Pay Now';
+                                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("An error occurred. Please contact support.");
+                            btn.innerHTML = 'Pay Now';
+                            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                        });
+                },
+                "theme": {
+                    "color": "#E36678"
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        console.log('Checkout form closed');
+                    }
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            document.getElementById('rzp-button1').onclick = function (e) {
+                rzp1.open();
+                e.preventDefault();
+            }
+        </script>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
