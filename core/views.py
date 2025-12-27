@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django_ratelimit.decorators import ratelimit
 import razorpay
 import json
 
@@ -204,9 +205,11 @@ def donate(request):
 
 
 @csrf_exempt
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 def payment_callback(request):
     """
     Handle Razorpay payment callback and verify signature.
+    Rate limited to 10 requests per minute per IP.
     """
     if request.method == 'POST':
         try:
@@ -297,9 +300,11 @@ def refund_policy(request):
 
 
 @csrf_exempt
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 def verify_payment(request):
     """
     Secure server-side signature verification with amount validation.
+    Rate limited to 5 requests per minute per IP to prevent abuse.
     """
     if request.method == "POST":
         data = json.loads(request.body)
@@ -344,9 +349,11 @@ def verify_payment(request):
 
 
 
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 def donate_page(request):
     """
     Donation page with custom amount selection.
+    Rate limited to 10 requests per minute per IP.
     GET: Show donation form
     POST: Create Razorpay Order with selected amount
     """

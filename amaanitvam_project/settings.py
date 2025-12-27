@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--e447j-1q5eq3g)^gl@vax-k+x#fnyx%&ab6&e8lty63dccu1k'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = ['*', '.ngrok-free.app', '.ngrok.io']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Add ngrok hosts
+ALLOWED_HOSTS.extend(['.ngrok-free.app', '.ngrok.io'])
 
 # CSRF settings for ngrok
 CSRF_TRUSTED_ORIGINS = [
@@ -53,11 +60,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party apps
+    'corsheaders',
     # Local apps
     'core',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CORS - must be before CommonMiddleware
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,6 +77,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# =============================================================================
+# CORS CONFIGURATION
+# =============================================================================
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://127.0.0.1:8000').split(',')
+CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'amaanitvam_project.urls'
 
@@ -152,13 +169,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # =============================================================================
-# RAZORPAY CONFIGURATION (Test Mode)
+# RAZORPAY CONFIGURATION
 # =============================================================================
-# Replace these with your actual Razorpay Test API keys
+# API keys are loaded from environment variables for security
 # Get keys from: https://dashboard.razorpay.com/app/keys
 
-RAZORPAY_KEY_ID = 'rzp_test_RvnkOYpqF94SQH'
-RAZORPAY_KEY_SECRET = 'bCbZhJomQL3Kb9ADywdn2Gac'  # Add your secret key here
+RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
+RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', '')
 
 # Currency for donations
 RAZORPAY_CURRENCY = 'INR'
+
