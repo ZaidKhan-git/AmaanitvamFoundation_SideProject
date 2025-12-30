@@ -7,6 +7,7 @@ import razorpay
 import json
 
 from .models import StoryPost, Donation, VolunteerFormLink, Project
+from .email_service import send_donation_receipt
 
 
 # Initialize Razorpay client
@@ -148,10 +149,10 @@ def donate(request):
         donor_phone = request.POST.get('donor_phone')
         amount = request.POST.get('amount')
         
-        # Input validation: reject zero or negative amounts
+        # Input validation: reject amounts less than 10
         try:
-            if int(float(amount)) < 1:
-                return HttpResponse("Invalid Amount", status=400)
+            if int(float(amount)) < 10:
+                return HttpResponse("Minimum donation is ₹10", status=400)
         except (ValueError, TypeError):
             return HttpResponse("Invalid Amount", status=400)
         
@@ -235,6 +236,15 @@ def payment_callback(request):
                 donation.razorpay_signature = razorpay_signature
                 donation.status = 'success'
                 donation.save()
+                
+                # Send confirmation email to donor (non-blocking - failure doesn't affect donation)
+                try:
+                    send_donation_receipt(donation)
+                except Exception as email_error:
+                    # Log error but don't fail the donation
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.error(f"Failed to send donation receipt email: {email_error}")
                 
                 return JsonResponse({'status': 'success', 'donation_id': donation.id})
                 
@@ -322,8 +332,8 @@ def verify_payment(request):
             amount_paid_paise = payment['amount']  # Amount in paise from Razorpay
             
             # Step 3: Get our stored order and verify amount matches
-            donation = Donation.objects.get(order_id=data['razorpay_order_id'])
-            expected_amount_paise = int(float(donation.amount)) * 100
+            donation = Donation.objects.get(razorpay_order_id=data['razorpay_order_id'])
+            expected_amount_paise = int(donation.amount * 100)
             
             if amount_paid_paise != expected_amount_paise:
                 # Amount mismatch - potential tampering attempt!
@@ -333,9 +343,19 @@ def verify_payment(request):
                 }, status=400)
             
             # Step 4: All checks passed - Update Database
-            donation.payment_id = data['razorpay_payment_id']
-            donation.paid = True
+            donation.transaction_id = data['razorpay_payment_id']
+            donation.status = 'success'
             donation.save()
+            
+            # Send confirmation email
+            try:
+                send_donation_receipt(donation)
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Failed to send email in verify_payment: {e}")
+            
+            return JsonResponse({'status': 'success'})
             
             return JsonResponse({'status': 'success'})
             
@@ -377,9 +397,10 @@ def donate_page(request):
         
         # Create DB entry (Paid = False)
         Donation.objects.create(
-            name="Donor",
+            donor_name="Anonymous Donor",  # Placeholder since form doesn't provide name
+            donor_email="anonymous@example.com", # Placeholder
             amount=amount,
-            order_id=order_id
+            razorpay_order_id=order_id
         )
         
         context = {

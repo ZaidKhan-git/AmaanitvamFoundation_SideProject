@@ -54,18 +54,38 @@ class DonationAdmin(admin.ModelAdmin):
     """Admin configuration for Donations."""
     
     list_display = [
-        'name',
+        'donor_name',
+        'donor_email',
         'amount',
-        'paid',
+        'status',
         'date',
     ]
-    list_filter = ['paid', 'date']
-    search_fields = ['name', 'payment_id', 'order_id']
+    list_filter = ['status', 'date']
+    search_fields = ['donor_name', 'donor_email', 'transaction_id', 'razorpay_order_id']
     readonly_fields = [
-        'payment_id',
-        'order_id',
+        'razorpay_order_id',
+        'transaction_id',
+        'razorpay_signature',
         'date',
+        'updated_at',
     ]
+    
+    fieldsets = (
+        ('Donor Information', {
+            'fields': ('donor_name', 'donor_email', 'donor_phone'),
+        }),
+        ('Donation Details', {
+            'fields': ('amount', 'status'),
+        }),
+        ('Payment Details', {
+            'fields': ('razorpay_order_id', 'transaction_id', 'razorpay_signature'),
+            'classes': ('collapse',),
+        }),
+        ('Timestamps', {
+            'fields': ('date', 'updated_at'),
+            'classes': ('collapse',),
+        }),
+    )
 
 
 

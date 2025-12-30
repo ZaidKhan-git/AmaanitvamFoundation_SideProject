@@ -127,13 +127,33 @@ class StoryImage(models.Model):
 class Donation(models.Model):
     """
     Model for tracking all incoming donations via Razorpay.
+    Includes donor contact information for sending receipts.
     """
-    name = models.CharField(max_length=100)
-    amount = models.CharField(max_length=100, help_text="Amount in INR")
-    payment_id = models.CharField(max_length=100) # Razorpay Payment ID
-    order_id = models.CharField(max_length=100, unique=True) # Razorpay Order ID
-    paid = models.BooleanField(default=False)
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('success', 'Success'),
+        ('failed', 'Failed'),
+    ]
+    
+    # Donor Information
+    donor_name = models.CharField(max_length=100, verbose_name="Donor Name")
+    donor_email = models.EmailField(verbose_name="Donor Email")
+    donor_phone = models.CharField(max_length=15, blank=True, verbose_name="Donor Phone")
+    
+    # Donation Details
+    amount = models.DecimalField(max_digits=10, decimal_places=2, help_text="Amount in INR")
+    
+    # Razorpay Details
+    razorpay_order_id = models.CharField(max_length=100, unique=True, verbose_name="Razorpay Order ID")
+    transaction_id = models.CharField(max_length=100, blank=True, verbose_name="Payment ID")
+    razorpay_signature = models.CharField(max_length=255, blank=True, verbose_name="Razorpay Signature")
+    
+    # Status
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    
+    # Timestamps
     date = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-date']
@@ -141,7 +161,8 @@ class Donation(models.Model):
         verbose_name_plural = "Donations"
 
     def __str__(self):
-        return f"{self.name} - ₹{self.amount} ({'Paid' if self.paid else 'Pending'})"
+        status_display = self.get_status_display()
+        return f"{self.donor_name} - ₹{self.amount} ({status_display})"
 
 
 class VolunteerFormLink(models.Model):

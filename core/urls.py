@@ -16,7 +16,7 @@ urlpatterns = [
     path('project/<slug:slug>/', views.project_detail, name='project_detail'),
     
     # Donations
-    path('donate/', views.donate_page, name='donate'),
+    path('donate/', views.donate, name='donate'),
     path('payment/verify/', views.verify_payment, name='verify_payment'),
     path('payment/callback/', views.payment_callback, name='payment_callback'),
     path('payment/success/', views.payment_success, name='payment_success'),

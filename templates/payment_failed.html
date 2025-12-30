@@ -2,51 +2,175 @@
 
 {% block title %}Payment Failed - Amaanitvam Foundation{% endblock %}
 
+{% block extra_head %}
+<style>
+    .failed-page,
+    .failed-page * {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .error-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 15px 40px rgba(239, 68, 68, 0.25);
+        animation: circleScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes circleScale {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .error-icon path {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+        animation: drawX 0.4s ease-out 0.3s forwards;
+    }
+
+    @keyframes drawX {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fade-up {
+        opacity: 0;
+        animation: fadeUp 0.5s ease-out forwards;
+    }
+
+    .delay-1 {
+        animation-delay: 0.3s;
+    }
+
+    .delay-2 {
+        animation-delay: 0.5s;
+    }
+
+    .delay-3 {
+        animation-delay: 0.7s;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #E36678 0%, #d44d60 100%);
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(227, 102, 120, 0.35);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(31, 41, 55, 0.35);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Failed Section -->
-<section class="min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
-    <div class="max-w-lg mx-auto px-4 text-center">
-        <div class="bg-white p-10 shadow-lg">
-            <!-- Failed Icon -->
-            <div class="w-24 h-24 bg-stc-red-500 flex items-center justify-center mx-auto mb-6">
-                <span class="text-white text-5xl">✕</span>
+<section class="failed-page min-h-[85vh] py-16 bg-gradient-to-br from-gray-50 via-white to-red-50 flex items-center">
+    <div class="max-w-md mx-auto px-4 text-center">
+
+        <!-- Error Icon -->
+        <div class="flex justify-center mb-8">
+            <div class="error-circle">
+                <svg class="error-icon w-10 h-10" fill="none" stroke="white" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
             </div>
-
-            <h1 class="text-3xl font-black text-stc-black mb-4 font-display uppercase">
-                Payment Unsuccessful
-            </h1>
-
-            <p class="text-lg text-gray-600 mb-8">
-                We couldn't process your payment. No amount has been deducted.
-            </p>
-
-            <div class="bg-stc-gray-50 p-6 mb-8 text-left border-l-4 border-stc-red-500">
-                <h3 class="font-bold text-stc-black mb-3 uppercase text-sm">This could happen due to:</h3>
-                <ul class="text-sm text-gray-600 space-y-2">
-                    <li>• Insufficient balance</li>
-                    <li>• Payment declined by bank</li>
-                    <li>• Network connectivity issues</li>
-                    <li>• Session timeout</li>
-                </ul>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{% url 'donate' %}"
-                    class="bg-stc-red-500 hover:bg-stc-red-600 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
-                    Try Again
-                </a>
-                <a href="{% url 'home' %}"
-                    class="bg-stc-black hover:bg-gray-800 text-white font-bold py-3 px-8 transition-colors uppercase tracking-wide">
-                    Return Home
-                </a>
-            </div>
-
-            <p class="text-sm text-gray-500 mt-8">
-                Need help? <a href="mailto:amaanitvamfoundation@gmail.com"
-                    class="text-stc-red-500 hover:underline font-semibold">Contact us</a>
-            </p>
         </div>
+
+        <!-- Message -->
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3 fade-up delay-1">
+            Payment Unsuccessful
+        </h1>
+        <p class="text-gray-600 mb-8 fade-up delay-1">
+            We couldn't process your payment. No amount has been deducted.
+        </p>
+
+        <!-- Reasons Card -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 text-left fade-up delay-2">
+            <h3 class="font-semibold text-gray-800 mb-4 text-sm flex items-center gap-2">
+                <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                This could happen due to:
+            </h3>
+            <ul class="text-sm text-gray-600 space-y-2.5">
+                <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                    Insufficient balance
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                    Payment declined by bank
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                    Network connectivity issues
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                    Session timeout
+                </li>
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-3 fade-up delay-3">
+            <a href="{% url 'donate' %}"
+                class="btn-primary text-white font-semibold py-3.5 px-6 rounded-xl text-center text-sm">
+                Try Again
+            </a>
+            <a href="{% url 'home' %}"
+                class="btn-secondary text-white font-semibold py-3.5 px-6 rounded-xl text-center text-sm">
+                Return Home
+            </a>
+        </div>
+
+        <!-- Help -->
+        <p class="text-sm text-gray-500 mt-8 fade-up delay-3">
+            Need help?
+            <a href="mailto:amaanitvamfoundation@gmail.com" class="text-stc-red-500 hover:underline font-medium">
+                Contact us
+            </a>
+        </p>
     </div>
 </section>
 {% endblock %}

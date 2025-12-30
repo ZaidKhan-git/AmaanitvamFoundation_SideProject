@@ -8,41 +8,152 @@
     .donate-page * {
         font-family: 'Poppins', sans-serif !important;
     }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .pay-btn {
+        background: linear-gradient(135deg, #E36678 0%, #d44d60 100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pay-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(227, 102, 120, 0.4);
+    }
+
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-card {
+        animation: fadeInScale 0.5s ease-out;
+    }
+
+    .animate-content {
+        animation: slideUp 0.5s ease-out forwards;
+        opacity: 0;
+    }
+
+    .animate-delay-1 {
+        animation-delay: 0.1s;
+    }
+
+    .animate-delay-2 {
+        animation-delay: 0.2s;
+    }
+
+    .animate-delay-3 {
+        animation-delay: 0.3s;
+    }
+
+    .animate-delay-4 {
+        animation-delay: 0.4s;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Checkout Section -->
-<section class="donate-page min-h-[80vh] py-16 bg-stc-gray-50 flex items-center">
-    <div class="max-w-md mx-auto px-4 w-full">
-        <div class="bg-white p-8 shadow-lg text-center">
+<section
+    class="donate-page min-h-[85vh] py-16 bg-gradient-to-br from-gray-100 via-gray-50 to-white flex items-center relative overflow-hidden">
+
+    <!-- Subtle background elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 right-20 w-64 h-64 bg-stc-red-200 rounded-full opacity-20 blur-3xl"></div>
+        <div class="absolute bottom-20 left-20 w-80 h-80 bg-blue-200 rounded-full opacity-20 blur-3xl"></div>
+    </div>
+
+    <div class="max-w-md mx-auto px-4 w-full relative z-10">
+        <div class="glass-card rounded-3xl shadow-2xl p-8 md:p-10 animate-card">
+
             <!-- Amount Display -->
-            <div class="mb-8">
-                <p class="text-sm text-gray-500 uppercase tracking-wide mb-2">Donation Amount</p>
-                <p class="text-5xl font-black text-stc-red-500 font-display">₹{{ amount_display }}</p>
+            <div class="text-center mb-8 animate-content animate-delay-1">
+                <p class="text-xs text-gray-500 uppercase tracking-widest mb-2 font-medium">Donation Amount</p>
+                <div class="flex items-center justify-center gap-1">
+                    <span class="text-2xl font-medium text-gray-400">₹</span>
+                    <span class="text-5xl md:text-6xl font-black text-gray-800">{{ amount_display }}</span>
+                </div>
             </div>
 
             <!-- Donor Info -->
-            <div class="bg-stc-gray-50 p-4 mb-8 text-left border-l-4 border-stc-red-500">
-                <p class="text-sm text-gray-500 uppercase tracking-wide mb-1">Donating as</p>
-                <p class="font-bold text-stc-black">{{ donor_name }}</p>
+            <div class="bg-gray-50 rounded-2xl p-5 mb-8 animate-content animate-delay-2">
+                <p class="text-xs text-gray-500 uppercase tracking-wider mb-2 font-medium">Donating as</p>
+                <p class="font-bold text-gray-800 text-lg">{{ donor_name }}</p>
                 <p class="text-sm text-gray-600">{{ donor_email }}</p>
             </div>
 
-            <!-- Razorpay Button -->
+            <!-- Security Info -->
+            <div class="flex items-center justify-center gap-6 mb-8 animate-content animate-delay-3">
+                <div class="flex items-center gap-1.5 text-xs text-gray-500">
+                    <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-medium">256-bit SSL</span>
+                </div>
+                <div class="w-px h-4 bg-gray-300"></div>
+                <div class="flex items-center gap-1.5 text-xs text-gray-500">
+                    <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="font-medium">PCI Compliant</span>
+                </div>
+            </div>
+
+            <!-- Pay Button -->
             <button id="pay-button"
-                class="w-full bg-stc-red-500 hover:bg-stc-red-600 text-white font-black py-4 px-8 transition-colors uppercase tracking-wide text-lg mb-4">
-                Pay with Razorpay
+                class="pay-btn w-full text-white font-bold py-4 px-8 rounded-2xl text-lg mb-4 animate-content animate-delay-3 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
+                </svg>
+                Pay Securely
             </button>
 
             <a href="{% url 'donate' %}"
-                class="text-stc-red-500 hover:text-stc-black text-sm font-semibold uppercase tracking-wide">
-                ← Change amount
+                class="block text-center text-gray-500 hover:text-stc-red-500 text-sm font-medium transition-colors animate-content animate-delay-4">
+                ← Change amount or details
             </a>
 
-            <p class="text-xs text-gray-400 mt-6">
-                🔒 Secured by Razorpay
-            </p>
+            <!-- Trust Footer -->
+            <div class="mt-8 pt-6 border-t border-gray-100 animate-content animate-delay-4">
+                <div class="flex items-center justify-center gap-2 text-xs text-gray-400">
+                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Secured by <strong class="text-gray-600">Razorpay</strong> • RBI Licensed</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -82,7 +193,7 @@
             "email": "{{ donor_email }}",
             "contact": "{{ donor_phone }}"
         },
-        "theme": { "color": "#E11B22" },
+        "theme": { "color": "#E36678" },
         "config": {
             "display": {
                 "blocks": {

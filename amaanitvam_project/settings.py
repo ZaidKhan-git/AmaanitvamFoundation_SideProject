@@ -20,28 +20,31 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env_path = BASE_DIR / '.env'
 
+load_dotenv(env_path)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-change-in-production')
+SECRET_KEY = 'zvuv*h8$$3p4%i^z8aqvjqmh*b4&&$rawt6y17j4@*fivy&x@e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-# Add ngrok hosts
-ALLOWED_HOSTS.extend(['.ngrok-free.app', '.ngrok.io'])
+ALLOWED_HOSTS = [
+    'Roshan99610.pythonanywhere.com',  # Your original PA domain
+    'WWW.amaanitvam.org',      # Your custom domain (with www)
+    'amaanitvam.org',
+    'localhost',
+    '127.0.0.1',
+    '0.0.0.0',
+]
 
 # CSRF settings for ngrok
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.ngrok-free.app',
-    'https://*.ngrok.io',
-    'http://*.ngrok-free.app',
-    'http://*.ngrok.io',
-    'https://*.ngrok-free.dev',
-    'http://*.ngrok-free.dev',
+   "https://www.amaanitvam.org",
+   "https://amaanitvam.org"
 ]
 
 # Cookie settings for cross-origin requests (ngrok)
@@ -81,7 +84,12 @@ MIDDLEWARE = [
 # =============================================================================
 # CORS CONFIGURATION
 # =============================================================================
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://127.0.0.1:8000').split(',')
+CORS_ALLOWED_ORIGINS = [
+    "https://www.amaanitvam.org",
+    "https://amaanitvam.org",
+    "http://localhost:3000",
+    "http://localhost:8000",  # Useful if you are testing locally
+]
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -174,9 +182,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # API keys are loaded from environment variables for security
 # Get keys from: https://dashboard.razorpay.com/app/keys
 
-RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID', '')
-RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET', '')
+RAZORPAY_KEY_ID='rzp_test_RxoU949g9b6rbL'
+RAZORPAY_KEY_SECRET='LKuwLEos1VM75vMxU2Bgyldf'
 
 # Currency for donations
 RAZORPAY_CURRENCY = 'INR'
+
+
+# =============================================================================
+# EMAIL CONFIGURATION
+# =============================================================================
+# For Gmail: Use App Password (not regular password)
+# Generate at: https://myaccount.google.com/apppasswords
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# TODO: Replace with your actual Gmail credentials
+# For Gmail, you MUST use an App Password (not your regular password)
+# 1. Enable 2-Step Verification: https://myaccount.google.com/security
+# 2. Generate App Password: https://myaccount.google.com/apppasswords
+EMAIL_HOST_USER = 'amaanitvamfoundation@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'ympjyvccjnvsknla'  # Your 16-character App Password
+
+# "From" email address for outgoing emails
+DEFAULT_FROM_EMAIL = 'Amaanitvam Foundation <amaanitvamfoundation@gmail.com>'
+
+# Fallback to console backend in development (uncomment to test without sending real emails)
+# if DEBUG and EMAIL_HOST_USER == 'amaanitvamfoundation@gmail.com':
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

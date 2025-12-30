@@ -2,187 +2,59 @@
 
 {% block title %}Thank You! - Amaanitvam Foundation{% endblock %}
 
-{% block content %}
-<!-- Confetti Container -->
-<div id="confetti-container"
-    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
-
-<!-- Success Section -->
-<div
-    class="min-h-screen bg-gradient-to-br from-stc-gray-50 via-white to-red-50 flex items-center justify-center py-16 px-4 relative overflow-hidden">
-
-    <!-- Animated Background Elements -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-20 left-10 w-32 h-32 bg-red-200 rounded-full opacity-20 animate-float blur-2xl"></div>
-        <div
-            class="absolute bottom-20 right-10 w-40 h-40 bg-yellow-200 rounded-full opacity-20 animate-float-reverse blur-3xl">
-        </div>
-        <div
-            class="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-200 rounded-full opacity-20 animate-float-slow blur-2xl">
-        </div>
-    </div>
-
-    <div class="max-w-2xl w-full relative z-10">
-        <!-- Main Card -->
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all">
-
-            <!-- Success Icon with Animation -->
-            <div class="bg-gradient-to-r from-green-400 to-emerald-500 p-8 text-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-white opacity-10 animate-pulse-glow"></div>
-
-                <!-- Animated Checkmark -->
-                <div
-                    class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-4 relative z-10 animate-scale-in shadow-xl">
-                    <svg class="w-16 h-16 text-green-500 animate-draw-check" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-2 font-display animate-bounce-in">
-                    You're Amazing! 🎉
-                </h1>
-                <p class="text-white text-lg opacity-90 animate-fade-in-up">
-                    Your donation was successful
-                </p>
-            </div>
-
-            <!-- Content -->
-            <div class="p-8 md:p-12">
-
-                <!-- Impact Message -->
-                <div class="text-center mb-8 animate-slide-in-up">
-                    <p class="text-2xl text-gray-700 mb-4 font-medium">
-                        You just made a <span class="text-stc-red-500 font-bold">real difference</span> ✨
-                    </p>
-                    <p class="text-gray-600 max-w-lg mx-auto">
-                        Your generosity helps provide education, nutrition, and hope to children in need. Every rupee
-                        counts!
-                    </p>
-                </div>
-
-                <!-- Donation Details Card -->
-                {% if donation %}
-                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 mb-8 border-2 border-gray-200 animate-slide-in-up"
-                    style="animation-delay: 0.2s;">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="font-bold text-gray-800 text-lg flex items-center gap-2">
-                            <span class="text-2xl">🧾</span>
-                            Donation Receipt
-                        </h2>
-                        <span
-                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">VERIFIED</span>
-                    </div>
-
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center p-3 bg-white rounded-xl">
-                            <span class="text-gray-600 font-medium">Amount</span>
-                            <span class="font-black text-2xl text-stc-red-500">₹{{ donation.amount }}</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-white rounded-xl">
-                            <span class="text-gray-600 font-medium">Transaction ID</span>
-                            <span class="font-mono text-xs text-gray-700 bg-gray-100 px-2 py-1 rounded">{{
-                                donation.payment_id|truncatechars:20 }}</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-white rounded-xl">
-                            <span class="text-gray-600 font-medium">Date</span>
-                            <span class="text-gray-700 font-semibold">{{ donation.date|date:"M d, Y" }}</span>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
-                <!-- Email Notification -->
-                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mb-8 flex items-start gap-3 animate-slide-in-up"
-                    style="animation-delay: 0.3s;">
-                    <span class="text-2xl">📧</span>
-                    <div>
-                        <p class="text-blue-900 font-semibold mb-1">Tax Receipt on the way!</p>
-                        <p class="text-blue-700 text-sm">A confirmation email with your 80G tax exemption certificate
-                            will arrive shortly.</p>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 animate-slide-in-up"
-                    style="animation-delay: 0.4s;">
-                    <a href="{% url 'home' %}"
-                        class="bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 hover:shadow-xl text-center flex items-center justify-center gap-2 group">
-                        <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                            </path>
-                        </svg>
-                        Return Home
-                    </a>
-                    <a href="{% url 'stories_list' %}"
-                        class="bg-gradient-to-r from-stc-red-500 to-stc-red-600 hover:from-stc-red-600 hover:to-stc-red-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 hover:shadow-xl text-center flex items-center justify-center gap-2 group">
-                        See Our Impact
-                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <!-- Social Share -->
-                <div class="text-center pt-8 border-t-2 border-gray-100 animate-slide-in-up"
-                    style="animation-delay: 0.5s;">
-                    <p class="text-gray-500 font-semibold mb-4 flex items-center justify-center gap-2">
-                        <span class="text-xl">💚</span>
-                        Share the Love & Inspire Others
-                    </p>
-                    <div class="flex gap-3 justify-center">
-                        <a href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20%40AmaanitvamOrg%20to%20help%20children%20in%20need.%20Join%20me%20in%20making%20a%20difference!"
-                            target="_blank"
-                            class="w-12 h-12 bg-black hover:bg-stc-red-500 rounded-xl text-white flex items-center justify-center transition-all transform hover:scale-110 hover:rotate-6 shadow-lg">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
-                                </path>
-                            </svg>
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://amaanitvamfoundation.org"
-                            target="_blank"
-                            class="w-12 h-12 bg-blue-600 hover:bg-stc-red-500 rounded-xl text-white flex items-center justify-center transition-all transform hover:scale-110 hover:rotate-6 shadow-lg">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
-                                </path>
-                            </svg>
-                        </a>
-                        <a href="https://wa.me/?text=I%20just%20donated%20to%20Amaanitvam%20Foundation.%20You%20can%20make%20a%20difference%20too!%20https://amaanitvamfoundation.org"
-                            target="_blank"
-                            class="w-12 h-12 bg-green-500 hover:bg-stc-red-500 rounded-xl text-white flex items-center justify-center transition-all transform hover:scale-110 hover:rotate-6 shadow-lg">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
-                                </path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Fun Fact -->
-        <div class="mt-8 text-center animate-fade-in" style="animation-delay: 0.6s;">
-            <div class="inline-block bg-white rounded-2xl shadow-lg px-6 py-4">
-                <p class="text-gray-600 text-sm">
-                    <span class="font-bold text-stc-red-500">Fun Fact:</span> You're the <span
-                        class="font-black text-2xl text-gray-800 mx-1">{{ donation.id|default:"1" }}th</span> hero this
-                    month! 🦸‍♀️
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
+{% block extra_head %}
 <style>
-    @keyframes scale-in {
+    .success-page,
+    .success-page * {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    /* Particle Animation Container */
+    .particles-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 999;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        animation: particleFall linear forwards;
+    }
+
+    @keyframes particleFall {
+        0% {
+            opacity: 1;
+            transform: translateY(-20px) scale(1);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(100vh) scale(0);
+        }
+    }
+
+    /* Checkmark Animation */
+    .checkmark-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 20px 60px rgba(16, 185, 129, 0.3);
+        animation: circleScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes circleScale {
         0% {
             transform: scale(0);
             opacity: 0;
@@ -198,119 +70,312 @@
         }
     }
 
-    @keyframes bounce-in {
-        0% {
-            transform: translateY(-100px);
-            opacity: 0;
-        }
-
-        60% {
-            transform: translateY(10px);
-        }
-
-        80% {
-            transform: translateY(-5px);
-        }
-
-        100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
+    .checkmark-icon {
+        width: 50px;
+        height: 50px;
+        stroke: white;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
     }
 
-    @keyframes draw-check {
-        0% {
-            stroke-dasharray: 0, 100;
-        }
-
-        100% {
-            stroke-dasharray: 100, 100;
-        }
-    }
-
-    @keyframes slide-in-up {
-        0% {
-            transform: translateY(30px);
-            opacity: 0;
-        }
-
-        100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    .animate-scale-in {
-        animation: scale-in 0.5s ease-out;
-    }
-
-    .animate-bounce-in {
-        animation: bounce-in 0.8s ease-out;
-    }
-
-    .animate-draw-check {
+    .checkmark-path {
         stroke-dasharray: 100;
-        animation: draw-check 0.6s ease-out 0.3s forwards;
+        stroke-dashoffset: 100;
+        animation: drawCheck 0.6s ease-out 0.4s forwards;
     }
 
-    .animate-slide-in-up {
-        animation: slide-in-up 0.6s ease-out forwards;
-        opacity: 0;
+    @keyframes drawCheck {
+        to {
+            stroke-dashoffset: 0;
+        }
     }
 
-    .animate-fade-in {
-        animation: fadeIn 0.8s ease-out forwards;
-        opacity: 0;
+    /* Ring animation */
+    .success-ring {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        border: 2px solid rgba(16, 185, 129, 0.3);
+        border-radius: 50%;
+        animation: ringPulse 2s ease-out infinite;
     }
 
-    @keyframes fadeIn {
+    .success-ring-2 {
+        animation-delay: 0.5s;
+    }
+
+    @keyframes ringPulse {
+        0% {
+            transform: scale(1);
+            opacity: 0.6;
+        }
+
+        100% {
+            transform: scale(1.8);
+            opacity: 0;
+        }
+    }
+
+    /* Sparkle */
+    .sparkle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #FCD34D;
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        animation: sparklePop 1s ease-out forwards;
+    }
+
+    @keyframes sparklePop {
+        0% {
+            transform: scale(0) rotate(0deg);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.5) rotate(180deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(0) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Content animations */
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
         to {
             opacity: 1;
+            transform: translateY(0);
         }
+    }
+
+    .fade-up {
+        opacity: 0;
+        animation: fadeUp 0.6s ease-out forwards;
+    }
+
+    .delay-1 {
+        animation-delay: 0.5s;
+    }
+
+    .delay-2 {
+        animation-delay: 0.7s;
+    }
+
+    .delay-3 {
+        animation-delay: 0.9s;
+    }
+
+    .delay-4 {
+        animation-delay: 1.1s;
+    }
+
+    .delay-5 {
+        animation-delay: 1.3s;
+    }
+
+    /* Subtle background */
+    .success-bg {
+        background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #fef3c7 100%);
+    }
+
+    /* Card styling */
+    .receipt-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Button styling */
+    .btn-primary {
+        background: linear-gradient(135deg, #E36678 0%, #d44d60 100%);
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(227, 102, 120, 0.35);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(31, 41, 55, 0.35);
+    }
+
+    /* Social buttons */
+    .social-btn {
+        transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+        transform: translateY(-3px) scale(1.05);
     }
 </style>
+{% endblock %}
 
-<!-- Confetti Animation Script -->
+{% block content %}
+<!-- Particles Container -->
+<div class="particles-container" id="particles"></div>
+
+<!-- Success Section -->
+<section class="success-page success-bg min-h-screen flex items-center justify-center py-16 px-4">
+    <div class="max-w-lg w-full">
+
+        <!-- Success Icon -->
+        <div class="flex justify-center mb-10 relative">
+            <div class="success-ring"></div>
+            <div class="success-ring success-ring-2"></div>
+            <div class="checkmark-circle">
+                <svg class="checkmark-icon" viewBox="0 0 24 24">
+                    <path class="checkmark-path" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <!-- Sparkles -->
+            <div class="sparkle" style="top: 10px; left: 30%; animation-delay: 0.6s;"></div>
+            <div class="sparkle" style="top: 20px; right: 25%; animation-delay: 0.8s;"></div>
+            <div class="sparkle" style="bottom: 20px; left: 25%; animation-delay: 1s;"></div>
+            <div class="sparkle" style="bottom: 10px; right: 30%; animation-delay: 1.2s;"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3 fade-up delay-1">
+                Thank You! 🙏
+            </h1>
+            <p class="text-gray-600 text-lg mb-8 fade-up delay-2">
+                Your donation was successful
+            </p>
+
+            <!-- Receipt Card -->
+            {% if donation %}
+            <div class="receipt-card p-6 mb-8 fade-up delay-3">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs text-gray-500 uppercase tracking-wider font-medium">Receipt</span>
+                    <span
+                        class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-xs font-semibold">Verified</span>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                        <span class="text-gray-500 text-sm">Amount</span>
+                        <span class="font-bold text-2xl text-gray-800">₹{{ donation.amount }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-500 text-sm">Transaction ID</span>
+                        <span class="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                            {{ donation.transaction_id|truncatechars:18 }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-500 text-sm">Date</span>
+                        <span class="text-gray-700 text-sm font-medium">{{ donation.date|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Email Notice -->
+            <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-8 fade-up delay-4">
+                <div class="flex items-start gap-3">
+                    <span class="text-2xl">📧</span>
+                    <div class="text-left">
+                        <p class="text-blue-900 font-semibold text-sm">Receipt sent to your email</p>
+                        <p class="text-blue-700 text-xs mt-0.5">Includes 80G tax exemption details</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-3 mb-8 fade-up delay-4">
+                <a href="{% url 'home' %}"
+                    class="btn-secondary text-white font-semibold py-3.5 px-6 rounded-xl text-center text-sm">
+                    Return Home
+                </a>
+                <a href="{% url 'stories_list' %}"
+                    class="btn-primary text-white font-semibold py-3.5 px-6 rounded-xl text-center text-sm">
+                    See Our Impact
+                </a>
+            </div>
+
+            <!-- Share Section -->
+            <div class="pt-6 border-t border-gray-100 fade-up delay-5">
+                <p class="text-gray-500 text-xs mb-4 uppercase tracking-wider font-medium">Spread the word</p>
+                <div class="flex justify-center gap-3">
+                    <a href="https://twitter.com/intent/tweet?text=I%20just%20donated%20to%20%40AmaanitvamOrg%20to%20help%20children%20in%20need.%20Join%20me!"
+                        target="_blank"
+                        class="social-btn w-11 h-11 bg-black text-white rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://amaanitvamfoundation.org"
+                        target="_blank"
+                        class="social-btn w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://wa.me/?text=I%20just%20donated%20to%20Amaanitvam%20Foundation.%20You%20can%20make%20a%20difference%20too!%20https://amaanitvamfoundation.org"
+                        target="_blank"
+                        class="social-btn w-11 h-11 bg-green-500 text-white rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Particle Animation Script -->
 <script>
-    // Confetti Animation
-    function createConfetti() {
-        const container = document.getElementById('confetti-container');
-        const colors = ['#E36678', '#FFD700', '#00CED1', '#FF69B4', '#7FFF00', '#FF6347'];
+    function createParticles() {
+        const container = document.getElementById('particles');
+        const colors = ['#10B981', '#FCD34D', '#F472B6', '#60A5FA', '#A78BFA', '#E36678'];
 
-        for (let i = 0; i < 50; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'absolute';
-            confetti.style.width = Math.random() * 10 + 5 + 'px';
-            confetti.style.height = confetti.style.width;
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = -10 + 'px';
-            confetti.style.opacity = Math.random() + 0.5;
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            particle.style.animationDelay = (Math.random() * 0.5) + 's';
+            particle.style.width = (Math.random() * 6 + 4) + 'px';
+            particle.style.height = particle.style.width;
 
-            container.appendChild(confetti);
+            container.appendChild(particle);
 
-            const duration = Math.random() * 3 + 2;
-            const delay = Math.random() * 2;
-
-            confetti.animate([
-                { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
-                { transform: `translateY(100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-            ], {
-                duration: duration * 1000,
-                delay: delay * 1000,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            });
-
-            setTimeout(() => confetti.remove(), (duration + delay) * 1000);
+            // Remove particle after animation
+            setTimeout(() => particle.remove(), 4000);
         }
     }
 
-    // Fire confetti on page load
+    // Fire particles on load
     window.addEventListener('load', () => {
-        setTimeout(createConfetti, 300);
-        setTimeout(createConfetti, 1000);
+        setTimeout(createParticles, 200);
+        setTimeout(createParticles, 800);
     });
 </script>
 {% endblock %}

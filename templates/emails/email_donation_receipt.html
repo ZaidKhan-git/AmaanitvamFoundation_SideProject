@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Receipt - Amaanitvam Foundation</title>
+</head>
+
+<body
+    style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
+    <!-- Main Container -->
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"
+        style="background-color: #f5f5f5;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <!-- Email Card -->
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600"
+                    style="margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+
+                    <!-- Header with Logo -->
+                    <tr>
+                        <td
+                            style="background: linear-gradient(135deg, #E36678 0%, #d4526a 100%); padding: 30px; text-align: center;">
+                            <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">
+                                🙏 Thank You for Your Generosity!
+                            </h1>
+                            <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">
+                                Amaanitvam Foundation
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Success Badge -->
+                    <tr>
+                        <td style="padding: 30px 40px 20px 40px; text-align: center;">
+                            <div
+                                style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 600;">
+                                ✓ Payment Successful
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Greeting -->
+                    <tr>
+                        <td style="padding: 0 40px 20px 40px;">
+                            <p style="color: #333333; font-size: 18px; margin: 0;">
+                                Dear <strong>{{ donor_name }}</strong>,
+                            </p>
+                            <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 15px 0 0 0;">
+                                Your donation has been received successfully. You're making a real difference in the
+                                lives of underprivileged children. Every rupee you contribute helps provide education,
+                                nutrition, and hope to those in need.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Donation Details Card -->
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"
+                                style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                                <tr>
+                                    <td style="padding: 25px;">
+                                        <h3
+                                            style="color: #333333; font-size: 16px; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px;">
+                                            🧾 Donation Receipt
+                                        </h3>
+
+                                        <!-- Amount -->
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                            width="100%" style="margin-bottom: 15px;">
+                                            <tr>
+                                                <td style="color: #666666; font-size: 14px; padding: 8px 0;">Amount
+                                                    Donated</td>
+                                                <td
+                                                    style="color: #E36678; font-size: 24px; font-weight: 700; text-align: right; padding: 8px 0;">
+                                                    ₹{{ amount }}</td>
+                                            </tr>
+                                        </table>
+
+                                        <hr style="border: none; border-top: 1px solid #e9ecef; margin: 0;">
+
+                                        <!-- Transaction ID -->
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                            width="100%" style="margin-top: 15px;">
+                                            <tr>
+                                                <td style="color: #666666; font-size: 14px; padding: 8px 0;">Transaction
+                                                    ID</td>
+                                                <td
+                                                    style="color: #333333; font-size: 13px; font-family: monospace; text-align: right; padding: 8px 0;">
+                                                    {{ transaction_id }}</td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Order ID -->
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                            width="100%">
+                                            <tr>
+                                                <td style="color: #666666; font-size: 14px; padding: 8px 0;">Order ID
+                                                </td>
+                                                <td
+                                                    style="color: #333333; font-size: 13px; font-family: monospace; text-align: right; padding: 8px 0;">
+                                                    {{ order_id }}</td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Date -->
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0"
+                                            width="100%">
+                                            <tr>
+                                                <td style="color: #666666; font-size: 14px; padding: 8px 0;">Date</td>
+                                                <td
+                                                    style="color: #333333; font-size: 14px; text-align: right; padding: 8px 0;">
+                                                    {{ donation_date }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- 80G Tax Benefit Notice -->
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"
+                                style="background-color: #eff6ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                                <tr>
+                                    <td style="padding: 20px;">
+                                        <h4 style="color: #1e40af; font-size: 14px; margin: 0 0 10px 0;">
+                                            📋 80G Tax Exemption Certificate
+                                        </h4>
+                                        <p style="color: #1e40af; font-size: 14px; line-height: 1.5; margin: 0;">
+                                            Your donation is eligible for tax deduction under Section 80G of the Income
+                                            Tax Act.
+                                            The official 80G certificate will be sent to you within 7 working days.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Impact Message -->
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px; text-align: center;">
+                            <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 0;">
+                                <strong>Your contribution helps us:</strong>
+                            </p>
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"
+                                style="margin-top: 15px;">
+                                <tr>
+                                    <td style="text-align: center; padding: 10px;">
+                                        <div style="font-size: 28px; margin-bottom: 5px;">📚</div>
+                                        <div style="color: #333333; font-size: 13px;">Provide Education</div>
+                                    </td>
+                                    <td style="text-align: center; padding: 10px;">
+                                        <div style="font-size: 28px; margin-bottom: 5px;">🍱</div>
+                                        <div style="color: #333333; font-size: 13px;">Serve Nutritious Meals</div>
+                                    </td>
+                                    <td style="text-align: center; padding: 10px;">
+                                        <div style="font-size: 28px; margin-bottom: 5px;">🏥</div>
+                                        <div style="color: #333333; font-size: 13px;">Healthcare Support</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- CTA Button -->
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px; text-align: center;">
+                            <a href="https://amaanitvamfoundation.org/stories/"
+                                style="display: inline-block; background-color: #E36678; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: 600; font-size: 14px;">
+                                See Your Impact →
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #1a1a1a; padding: 30px 40px; text-align: center;">
+                            <p style="color: #ffffff; font-size: 16px; font-weight: 600; margin: 0 0 10px 0;">
+                                Amaanitvam Foundation
+                            </p>
+                            <p style="color: #888888; font-size: 13px; margin: 0 0 15px 0;">
+                                Empowering Children Through Education
+                            </p>
+
+                            <!-- Contact Info -->
+                            <p style="color: #888888; font-size: 12px; margin: 0 0 5px 0;">
+                                📧 amaanitvamfoundation@gmail.com
+                            </p>
+                            <p style="color: #888888; font-size: 12px; margin: 0 0 15px 0;">
+                                🌐 www.amaanitvamfoundation.org
+                            </p>
+
+                            <!-- Social Links -->
+                            <p style="margin: 0;">
+                                <a href="https://twitter.com/AmaanitvamOrg"
+                                    style="color: #888888; text-decoration: none; margin: 0 10px;">Twitter</a>
+                                <a href="https://facebook.com/AmaanitvamFoundation"
+                                    style="color: #888888; text-decoration: none; margin: 0 10px;">Facebook</a>
+                                <a href="https://instagram.com/AmaanitvamFoundation"
+                                    style="color: #888888; text-decoration: none; margin: 0 10px;">Instagram</a>
+                            </p>
+
+                            <hr style="border: none; border-top: 1px solid #333333; margin: 20px 0;">
+
+                            <p style="color: #666666; font-size: 11px; margin: 0;">
+                                This is an automated email. For queries, please reply to this email or contact us at the
+                                address above.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
