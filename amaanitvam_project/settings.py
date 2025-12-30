@@ -27,19 +27,14 @@ load_dotenv(env_path)
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zvuv*h8$$3p4%i^z8aqvjqmh*b4&&$rawt6y17j4@*fivy&x@e'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-key-for-dev-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = [
-    'Roshan99610.pythonanywhere.com',  # Your original PA domain
-    'WWW.amaanitvam.org',      # Your custom domain (with www)
-    'amaanitvam.org',
-    'localhost',
-    '127.0.0.1',
-    '0.0.0.0',
-]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# ... (omitting lines for brevity in replacing chunk, will target specific blocks)
 
 # CSRF settings for ngrok
 CSRF_TRUSTED_ORIGINS = [
@@ -182,33 +177,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # API keys are loaded from environment variables for security
 # Get keys from: https://dashboard.razorpay.com/app/keys
 
-RAZORPAY_KEY_ID='rzp_test_RxoU949g9b6rbL'
-RAZORPAY_KEY_SECRET='LKuwLEos1VM75vMxU2Bgyldf'
+# =============================================================================
+# RAZORPAY CONFIGURATION
+# =============================================================================
+# API keys are loaded from environment variables for security
+RAZORPAY_KEY_ID = os.getenv('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.getenv('RAZORPAY_KEY_SECRET')
 
 # Currency for donations
-RAZORPAY_CURRENCY = 'INR'
+RAZORPAY_CURRENCY = os.getenv('RAZORPAY_CURRENCY', 'INR')
 
 
 # =============================================================================
 # EMAIL CONFIGURATION
 # =============================================================================
-# For Gmail: Use App Password (not regular password)
-# Generate at: https://myaccount.google.com/apppasswords
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
 
-# TODO: Replace with your actual Gmail credentials
-# For Gmail, you MUST use an App Password (not your regular password)
-# 1. Enable 2-Step Verification: https://myaccount.google.com/security
-# 2. Generate App Password: https://myaccount.google.com/apppasswords
-EMAIL_HOST_USER = 'amaanitvamfoundation@gmail.com'  # Your Gmail address
-EMAIL_HOST_PASSWORD = 'ympjyvccjnvsknla'  # Your 16-character App Password
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 # "From" email address for outgoing emails
-DEFAULT_FROM_EMAIL = 'Amaanitvam Foundation <amaanitvamfoundation@gmail.com>'
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Amaanitvam Foundation <noreply@amaanitvam.org>')
 
 # Fallback to console backend in development (uncomment to test without sending real emails)
 # if DEBUG and EMAIL_HOST_USER == 'amaanitvamfoundation@gmail.com':
